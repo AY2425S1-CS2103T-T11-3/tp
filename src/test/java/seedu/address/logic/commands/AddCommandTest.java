@@ -77,14 +77,12 @@ public class AddCommandTest {
         assertFalse(addAliceCommand.equals(addBobCommand));
     }
 
-    /*
-    @Test
-    public void toStringMethod() {
-        AddCommand addCommand = new AddCommand(ALICE);
-        String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + ALICE + "}";
-        assertEquals(expected, addCommand.toString());
-    }
-     */
+//    @Test
+//    public void toStringMethod() {
+//        AddCommand addCommand = new AddCommand(ALICE);
+//        String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + ALICE + "}";
+//        assertEquals(expected, addCommand.toString());
+//  }
 
     /**
      * A default model stub that have all of the methods failing.
