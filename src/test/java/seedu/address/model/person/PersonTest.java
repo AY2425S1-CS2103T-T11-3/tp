@@ -25,7 +25,7 @@ public class PersonTest {
     }
 
     @Test
-    public void isSamePerson() {
+    public void isSamePerson() {        // definition of isSamePerson modified
         // same object -> returns true
         assertTrue(ALICE.isSamePerson(ALICE));
 

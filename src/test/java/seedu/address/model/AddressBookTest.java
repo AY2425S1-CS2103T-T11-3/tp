@@ -54,6 +54,8 @@ public class AddressBookTest {
         assertThrows(DuplicatePersonException.class, () -> addressBook.resetData(newData));
     }
 
+    // definition of has person is modified
+
     @Test
     public void hasPerson_nullPerson_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> addressBook.hasPerson(null));
