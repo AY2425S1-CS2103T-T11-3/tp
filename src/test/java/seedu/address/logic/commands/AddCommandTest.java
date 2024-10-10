@@ -138,6 +138,16 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
+        @Override              // added to remove error
+        public boolean hasPhone(Person person) {
+            return false;
+        }
+
+        @Override               // added to remove error
+        public boolean hasEmail(Person person) {
+            return false;
+        }
+
         @Override
         public void deletePerson(Person target) {
             throw new AssertionError("This method should not be called.");
