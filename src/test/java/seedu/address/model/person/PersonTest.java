@@ -25,6 +25,7 @@ public class PersonTest {
     }
 
     @Test
+    // definition of isSamePerson modified
     public void isSamePerson() {
         // same object -> returns true
         assertTrue(ALICE.isSamePerson(ALICE));

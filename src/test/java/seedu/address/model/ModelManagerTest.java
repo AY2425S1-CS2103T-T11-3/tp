@@ -72,6 +72,8 @@ public class ModelManagerTest {
         assertEquals(path, modelManager.getAddressBookFilePath());
     }
 
+    // definition of hasPerson is modified
+
     @Test
     public void hasPerson_nullPerson_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> modelManager.hasPerson(null));
