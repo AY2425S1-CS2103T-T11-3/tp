@@ -82,7 +82,7 @@ public class AddCommandTest {
 //        AddCommand addCommand = new AddCommand(ALICE);
 //        String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + ALICE + "}";
 //        assertEquals(expected, addCommand.toString());
-//        }
+//  }
 
     /**
      * A default model stub that have all of the methods failing.
