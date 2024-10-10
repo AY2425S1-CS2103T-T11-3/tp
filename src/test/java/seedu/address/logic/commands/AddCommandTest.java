@@ -138,13 +138,13 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
-        @Override              // added to remove error
-        public boolean hasPhone(Person person) {
+        @Override
+        public boolean hasPhone(Person person) {    // added to remove error
             return false;
         }
 
-        @Override               // added to remove error
-        public boolean hasEmail(Person person) {
+        @Override
+        public boolean hasEmail(Person person) {    // added to remove error
             return false;
         }
 
@@ -181,9 +181,9 @@ public class AddCommandTest {
         }
 
         @Override
-        public boolean hasPerson(Person person) {
+        public boolean hasPerson(Person person) {   // definition of isSamePerson modified
             requireNonNull(person);
-            return this.person.isSamePerson(person);        // definition of isSamePerson modified
+            return this.person.isSamePerson(person);
         }
     }
 
@@ -194,9 +194,9 @@ public class AddCommandTest {
         final ArrayList<Person> personsAdded = new ArrayList<>();
 
         @Override
-        public boolean hasPerson(Person person) {
+        public boolean hasPerson(Person person) {   // definition of isSamePerson modified
             requireNonNull(person);
-            return personsAdded.stream().anyMatch(person::isSamePerson);    // definition of isSamePerson modified
+            return personsAdded.stream().anyMatch(person::isSamePerson);
         }
 
         @Override
