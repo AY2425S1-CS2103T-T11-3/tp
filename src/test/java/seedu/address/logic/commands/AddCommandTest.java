@@ -139,12 +139,14 @@ public class AddCommandTest {
         }
 
         @Override
-        public boolean hasPhone(Person person) {    // added to remove error
+        // added to conform to model
+        public boolean hasPhone(Person person) {
             return false;
         }
 
         @Override
-        public boolean hasEmail(Person person) {    // added to remove error
+        // added to conform to model
+        public boolean hasEmail(Person person) {
             return false;
         }
 
@@ -181,7 +183,8 @@ public class AddCommandTest {
         }
 
         @Override
-        public boolean hasPerson(Person person) {   // definition of isSamePerson modified
+        // definition of isSamePerson modified
+        public boolean hasPerson(Person person) {
             requireNonNull(person);
             return this.person.isSamePerson(person);
         }
@@ -194,7 +197,8 @@ public class AddCommandTest {
         final ArrayList<Person> personsAdded = new ArrayList<>();
 
         @Override
-        public boolean hasPerson(Person person) {   // definition of isSamePerson modified
+        // definition of isSamePerson modified
+        public boolean hasPerson(Person person) {
             requireNonNull(person);
             return personsAdded.stream().anyMatch(person::isSamePerson);
         }
