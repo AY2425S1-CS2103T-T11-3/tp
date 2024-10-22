@@ -1,11 +1,14 @@
 package seedu.address.model.util;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import seedu.address.model.book.addressbook.AddressBook;
 import seedu.address.model.book.addressbook.ReadOnlyAddressBook;
+import seedu.address.model.book.weddingbook.ReadOnlyWeddingBook;
 import seedu.address.model.book.weddingbook.WeddingBook;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -64,16 +67,21 @@ public class SampleDataUtil {
     }
 
     public static Wedding[] getSampleWeddings() {
+        Set<Tag> tagSet = new HashSet<>();
+        tagSet.add(new Tag("Client"));
         return new Wedding[] {
-            new Wedding(new Husband(new Name("Alex")), new Wife(new Name("Alyssa")), null, null),
-            new Wedding(new Husband(new Name("Alex")), new Wife(new Name("Alyssa")),
-                    new Date("2024-10-10"), null),
-            new Wedding(new Husband(new Name("Alex")), new Wife(new Name("Alyssa")),
-                    new Date("2024-10-10"), new Venue("Grand Hyatt"))
+            new Wedding(new Husband(new Name("Alex"), new Person(
+                            new Name("Alex Yeo"), new Phone("12345678"),
+                            new Email("alexyeo@gmail.com"), new Address("Singapore"), tagSet)),
+                    new Wife(new Name("Alyssa"), new Person(
+                            new Name("Alyssa Chong"), new Phone("23456789"),
+                            new Email("alyssachong@gmail.com"), new Address("Singapore"), tagSet)),
+                    null,
+                    null)
         };
     }
 
-    public static seedu.address.model.book.weddingbook.ReadOnlyWeddingBook getSampleWeddingBook() {
+    public static ReadOnlyWeddingBook getSampleWeddingBook() {
         WeddingBook sampleWb = new WeddingBook();
         for (Wedding sampleWedding : getSampleWeddings()) {
             sampleWb.addWedding(sampleWedding);

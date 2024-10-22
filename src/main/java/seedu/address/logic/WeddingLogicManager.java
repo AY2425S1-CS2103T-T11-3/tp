@@ -6,7 +6,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.commands.wedding.WeddingCommand;
-import seedu.address.logic.parser.WeddingParser;
+import seedu.address.logic.parser.WeddingBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.book.BookObject;
 import seedu.address.model.book.ReadOnlyBook;
@@ -29,7 +29,7 @@ public class WeddingLogicManager implements Logic {
 
     private final WeddingModel weddingModel;
     private final Storage storage;
-    private final WeddingParser weddingParser;
+    private final WeddingBookParser weddingBookParser;
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
@@ -37,7 +37,7 @@ public class WeddingLogicManager implements Logic {
     public WeddingLogicManager(WeddingModel weddingModel, Storage storage) {
         this.weddingModel = weddingModel;
         this.storage = storage;
-        weddingParser = new WeddingParser();
+        weddingBookParser = new WeddingBookParser();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class WeddingLogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        WeddingCommand command = weddingParser.parseCommand(commandText);
+        WeddingCommand command = weddingBookParser.parseCommand(commandText);
         commandResult = command.execute(weddingModel);
 
 //        try {

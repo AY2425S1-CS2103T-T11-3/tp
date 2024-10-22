@@ -12,7 +12,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.PersonCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.parser.GeneralParser;
+import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.book.ReadOnlyBook;
 import seedu.address.model.book.addressbook.AddressModel;
@@ -33,7 +33,7 @@ public class AddressLogicManager implements Logic {
 
     private final AddressModel addressModel;
     private final Storage storage;
-    private final GeneralParser generalParser;
+    private final AddressBookParser addressBookParser;
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
@@ -41,7 +41,7 @@ public class AddressLogicManager implements Logic {
     public AddressLogicManager(AddressModel addressModel, Storage storage) {
         this.addressModel = addressModel;
         this.storage = storage;
-        generalParser = new GeneralParser();
+        addressBookParser = new AddressBookParser();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class AddressLogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        PersonCommand command = generalParser.parseCommand(commandText);
+        PersonCommand command = addressBookParser.parseCommand(commandText);
         commandResult = command.execute(addressModel);
 
         try {

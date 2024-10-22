@@ -26,12 +26,7 @@ import seedu.address.model.book.weddingbook.WeddingBook;
 import seedu.address.model.book.weddingbook.WeddingModel;
 import seedu.address.model.book.weddingbook.WeddingModelManager;
 import seedu.address.model.util.SampleDataUtil;
-import seedu.address.storage.AddressBookStorage;
-import seedu.address.storage.JsonAddressBookStorage;
-import seedu.address.storage.JsonUserPrefsStorage;
-import seedu.address.storage.Storage;
-import seedu.address.storage.StorageManager;
-import seedu.address.storage.UserPrefsStorage;
+import seedu.address.storage.*;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
 
@@ -48,7 +43,7 @@ public class MainApp extends Application {
     protected Ui ui;
     protected AddressLogicManager addressLogic;
     protected WeddingLogicManager weddingLogic;
-    protected Storage addressStorage;
+    protected Storage storage;
     protected Storage weddingStorage;
     protected AddressModel addressModel;
     protected WeddingModel weddingModel;
@@ -66,13 +61,15 @@ public class MainApp extends Application {
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
         AddressBookStorage addressBookStorage = new JsonAddressBookStorage(userPrefs.getAddressBookFilePath());
-        addressStorage = new StorageManager(addressBookStorage, userPrefsStorage);
+        WeddingBookStorage weddingBookStorage = new JsonWeddingBookStorage(userPrefs.getWeddingBookFilePath());
 
-        addressModel = initAddressModelManager(addressStorage, userPrefs);
-        weddingModel = initWeddingModelManager(weddingStorage, userPrefs);
+        storage = new StorageManager(addressBookStorage, weddingBookStorage, userPrefsStorage);
 
-        addressLogic = new AddressLogicManager(addressModel, addressStorage);
-        weddingLogic = new WeddingLogicManager(weddingModel, addressStorage);
+        addressModel = initAddressModelManager(storage, userPrefs);
+        weddingModel = initWeddingModelManager(storage, userPrefs);
+
+        addressLogic = new AddressLogicManager(addressModel, storage);
+        weddingLogic = new WeddingLogicManager(weddingModel, storage);
 
         ui = new UiManager(addressLogic, weddingLogic);
     }
@@ -209,7 +206,8 @@ public class MainApp extends Application {
     public void stop() {
         logger.info("============================ [ Stopping AddressBook ] =============================");
         try {
-            addressStorage.saveUserPrefs(addressModel.getUserPrefs());
+            storage.saveUserPrefs(addressModel.getUserPrefs());
+//            weddingStorage.saveUserPrefs(weddingModel.getUserPrefs());
         } catch (IOException e) {
             logger.severe("Failed to save preferences " + StringUtil.getDetails(e));
         }

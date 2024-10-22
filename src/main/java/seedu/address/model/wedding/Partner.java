@@ -16,10 +16,10 @@ public abstract class Partner {
      * Constructs a {@code Partner}.
      *
      */
-    public Partner(Name name) {
+    public Partner(Name name, Person person) {
         requireNonNull(name);
         this.nameToUse = name;
-        this.person = null;
+        this.person = person;
     }
 
     public Name getNameToUse() {
@@ -37,7 +37,7 @@ public abstract class Partner {
 
     @Override
     public String toString() {
-        return person.toString();
+        return nameToUse.toString();
     }
 
     @Override
