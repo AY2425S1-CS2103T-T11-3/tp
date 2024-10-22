@@ -7,20 +7,24 @@ import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.Version;
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.commons.util.ConfigUtil;
 import seedu.address.commons.util.StringUtil;
-import seedu.address.logic.Logic;
-import seedu.address.logic.LogicManager;
-import seedu.address.model.AddressBook;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.logic.AddressLogicManager;
+import seedu.address.logic.WeddingLogicManager;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.book.addressbook.AddressBook;
+import seedu.address.model.book.addressbook.AddressModel;
+import seedu.address.model.book.addressbook.AddressModelManager;
+import seedu.address.model.book.addressbook.ReadOnlyAddressBook;
+import seedu.address.model.book.weddingbook.WeddingBook;
+import seedu.address.model.book.weddingbook.WeddingModel;
+import seedu.address.model.book.weddingbook.WeddingModelManager;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.JsonAddressBookStorage;
@@ -30,6 +34,7 @@ import seedu.address.storage.StorageManager;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
+
 
 /**
  * Runs the application.
@@ -41,9 +46,12 @@ public class MainApp extends Application {
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     protected Ui ui;
-    protected Logic logic;
-    protected Storage storage;
-    protected Model model;
+    protected AddressLogicManager addressLogic;
+    protected WeddingLogicManager weddingLogic;
+    protected Storage addressStorage;
+    protected Storage weddingStorage;
+    protected AddressModel addressModel;
+    protected WeddingModel weddingModel;
     protected Config config;
 
     @Override
@@ -58,13 +66,15 @@ public class MainApp extends Application {
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
         AddressBookStorage addressBookStorage = new JsonAddressBookStorage(userPrefs.getAddressBookFilePath());
-        storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        addressStorage = new StorageManager(addressBookStorage, userPrefsStorage);
 
-        model = initModelManager(storage, userPrefs);
+        addressModel = initAddressModelManager(addressStorage, userPrefs);
+        weddingModel = initWeddingModelManager(weddingStorage, userPrefs);
 
-        logic = new LogicManager(model, storage);
+        addressLogic = new AddressLogicManager(addressModel, addressStorage);
+        weddingLogic = new WeddingLogicManager(weddingModel, addressStorage);
 
-        ui = new UiManager(logic);
+        ui = new UiManager(addressLogic, weddingLogic);
     }
 
     /**
@@ -72,7 +82,7 @@ public class MainApp extends Application {
      * The data from the sample address book will be used instead if {@code storage}'s address book is not found,
      * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
      */
-    private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
+    private AddressModel initAddressModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
         logger.info("Using data file : " + storage.getAddressBookFilePath());
 
         Optional<ReadOnlyAddressBook> addressBookOptional;
@@ -90,7 +100,28 @@ public class MainApp extends Application {
             initialData = new AddressBook();
         }
 
-        return new ModelManager(initialData, userPrefs);
+        return new AddressModelManager(initialData, userPrefs);
+    }
+
+    private WeddingModel initWeddingModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
+        logger.info("Using data file : " + storage.getWeddingBookFilePath());
+
+        Optional<seedu.address.model.book.weddingbook.ReadOnlyWeddingBook> weddingBookOptional;
+        seedu.address.model.book.weddingbook.ReadOnlyWeddingBook initialData;
+        try {
+            weddingBookOptional = storage.readWeddingBook();
+            if (!weddingBookOptional.isPresent()) {
+                logger.info("Creating a new data file " + storage.getAddressBookFilePath()
+                        + " populated with a sample AddressBook.");
+            }
+            initialData = weddingBookOptional.orElseGet(SampleDataUtil::getSampleWeddingBook);
+        } catch (DataLoadingException e) {
+            logger.warning("Data file at " + storage.getWeddingBookFilePath() + " could not be loaded."
+                    + " Will be starting with an empty Wedding.");
+            initialData = new WeddingBook();
+        }
+
+        return new WeddingModelManager(initialData, userPrefs);
     }
 
     private void initLogging(Config config) {
@@ -178,7 +209,7 @@ public class MainApp extends Application {
     public void stop() {
         logger.info("============================ [ Stopping AddressBook ] =============================");
         try {
-            storage.saveUserPrefs(model.getUserPrefs());
+            addressStorage.saveUserPrefs(addressModel.getUserPrefs());
         } catch (IOException e) {
             logger.severe("Failed to save preferences " + StringUtil.getDetails(e));
         }

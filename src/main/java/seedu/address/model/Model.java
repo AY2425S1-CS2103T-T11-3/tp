@@ -1,19 +1,17 @@
 package seedu.address.model;
 
-import java.nio.file.Path;
-import java.util.function.Predicate;
-
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.model.person.Person;
+import seedu.address.model.book.BookObject;
+import seedu.address.model.book.ReadOnlyBook;
+
+import java.nio.file.Path;
+import java.util.function.Predicate;
 
 /**
  * The API of the Model component.
  */
 public interface Model {
-    /** {@code Predicate} that always evaluate to true */
-    Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
-
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
      */
@@ -35,63 +33,53 @@ public interface Model {
     void setGuiSettings(GuiSettings guiSettings);
 
     /**
-     * Returns the user prefs' address book file path.
+     * Returns the user prefs' book file path.
      */
-    Path getAddressBookFilePath();
+    Path getBookFilePath();
 
     /**
-     * Sets the user prefs' address book file path.
+     * Sets the user prefs' book file path.
      */
-    void setAddressBookFilePath(Path addressBookFilePath);
+    void setBookFilePath(Path bookFilePath);
 
     /**
-     * Replaces address book data with the data in {@code addressBook}.
+     * Replaces book data with the data in {@code book}.
      */
-    void setAddressBook(ReadOnlyAddressBook addressBook);
+    void setBook(ReadOnlyBook<? extends BookObject> book);
 
-    /** Returns the AddressBook */
-    ReadOnlyAddressBook getAddressBook();
+    /** Returns the book */
+    ReadOnlyBook<? extends BookObject> book();
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     * Returns true if an object with the same identity as {@code object} exists in the book.
      */
-    boolean hasPerson(Person person);
+    boolean hasObject(BookObject object);
 
     /**
-     * Returns true if a person has the same phone number as {@code person} in the address book.
+     * Deletes the given object.
+     * The object must exist in the book.
      */
-    boolean hasPhone(Person person);
+    void deleteObject(BookObject object);
 
     /**
-     * Returns true if a person has the same email address as {@code person} in the address book.
+     * Adds the given object.
+     * {@code object} must not already exist in the book.
      */
-    boolean hasEmail(Person person);
+    void addObject(BookObject object);
 
     /**
-     * Deletes the given person.
-     * The person must exist in the address book.
+     * Replaces the given object {@code target} with {@code editedObject}.
+     * {@code target} must exist in the book.
+     * The object identity of {@code editedObject} must not be the same as another existing object in the book.
      */
-    void deletePerson(Person target);
+    void setObject(BookObject target, BookObject editedObject);
+
+    /** Returns an unmodifiable view of the filtered list */
+    ObservableList<? extends BookObject> getFilteredList();
 
     /**
-     * Adds the given person.
-     * {@code person} must not already exist in the address book.
-     */
-    void addPerson(Person person);
-
-    /**
-     * Replaces the given person {@code target} with {@code editedPerson}.
-     * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
-     */
-    void setPerson(Person target, Person editedPerson);
-
-    /** Returns an unmodifiable view of the filtered person list */
-    ObservableList<Person> getFilteredPersonList();
-
-    /**
-     * Updates the filter of the filtered person list to filter by the given {@code predicate}.
+     * Updates the filter of the filtered list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredPersonList(Predicate<Person> predicate);
+    void updateFilteredList(Predicate<? extends BookObject> predicate);
 }

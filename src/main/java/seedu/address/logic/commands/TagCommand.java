@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+import static seedu.address.model.book.addressbook.AddressModel.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -16,7 +16,7 @@ import java.util.Set;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.Model;
+import seedu.address.model.book.addressbook.AddressModel;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -27,7 +27,7 @@ import seedu.address.model.tag.Tag;
 /**
  * Tags existing person in the address book.
  */
-public class TagCommand extends Command {
+public class TagCommand extends PersonCommand {
 
     public static final String COMMAND_WORD = "tag";
 
@@ -59,8 +59,8 @@ public class TagCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
-        requireNonNull(model);
+    public CommandResult execute(AddressModel addressModel) throws CommandException {
+        requireNonNull(addressModel);
 
         // checks if multiple persons contain same keyword in name
         // displays those persons
@@ -75,8 +75,8 @@ public class TagCommand extends Command {
         */
 
         // finds person to tag
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        List<Person> lastShownList = model.getFilteredPersonList();
+        addressModel.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        List<Person> lastShownList = addressModel.getFilteredPersonList();
         Person personToTag = null;
         for (Person person : lastShownList) {
             if (person.getName().equals(this.name)) {
@@ -98,8 +98,8 @@ public class TagCommand extends Command {
         }
 
         Person taggedPerson = createEditedPerson(personToTag, tagPersonDescriptor);
-        model.setPerson(personToTag, taggedPerson);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        addressModel.setPerson(personToTag, taggedPerson);
+        addressModel.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_TAG_PERSON_SUCCESS, Messages.format(taggedPerson)));
     }
 

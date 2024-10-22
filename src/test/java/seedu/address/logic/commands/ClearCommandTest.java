@@ -5,28 +5,28 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.AddressBook;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
+import seedu.address.model.book.addressbook.AddressBook;
+import seedu.address.model.book.addressbook.AddressModel;
+import seedu.address.model.book.addressbook.AddressModelManager;
 import seedu.address.model.UserPrefs;
 
 public class ClearCommandTest {
 
     @Test
     public void execute_emptyAddressBook_success() {
-        Model model = new ModelManager();
-        Model expectedModel = new ModelManager();
+        AddressModel addressModel = new AddressModelManager();
+        AddressModel expectedAddressModel = new AddressModelManager();
 
-        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ClearCommand(), addressModel, ClearCommand.MESSAGE_SUCCESS, expectedAddressModel);
     }
 
     @Test
     public void execute_nonEmptyAddressBook_success() {
-        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        expectedModel.setAddressBook(new AddressBook());
+        AddressModel addressModel = new AddressModelManager(getTypicalAddressBook(), new UserPrefs());
+        AddressModel expectedAddressModel = new AddressModelManager(getTypicalAddressBook(), new UserPrefs());
+        expectedAddressModel.setAddressBook(new AddressBook());
 
-        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ClearCommand(), addressModel, ClearCommand.MESSAGE_SUCCESS, expectedAddressModel);
     }
 
 }

@@ -16,9 +16,9 @@ public abstract class Partner {
      * Constructs a {@code Partner}.
      *
      */
-    public Partner(String name) {
+    public Partner(Name name) {
         requireNonNull(name);
-        this.nameToUse = new Name(name);
+        this.nameToUse = name;
         this.person = null;
     }
 

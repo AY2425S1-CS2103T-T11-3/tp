@@ -4,14 +4,14 @@ import static java.util.Objects.requireNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
-import seedu.address.model.Model;
+import seedu.address.model.book.addressbook.AddressModel;
 import seedu.address.model.person.NameMatchesNamePredicate;
 
 /**
  * View the person in address book whose name matches the keyword.
  * Keyword matching is case insensitive.
  */
-public class ViewCommand extends Command {
+public class ViewCommand extends PersonCommand {
 
     public static final String COMMAND_WORD = "view";
 
@@ -27,11 +27,11 @@ public class ViewCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) {
-        requireNonNull(model);
-        model.updateFilteredPersonList(predicate);
+    public CommandResult execute(AddressModel addressModel) {
+        requireNonNull(addressModel);
+        addressModel.updateFilteredPersonList(predicate);
         return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, addressModel.getFilteredPersonList().size()));
     }
 
     @Override

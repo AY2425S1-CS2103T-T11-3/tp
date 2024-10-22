@@ -18,9 +18,9 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.AddressBook;
-import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.book.addressbook.AddressBook;
+import seedu.address.model.book.addressbook.AddressModel;
+import seedu.address.model.book.addressbook.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
@@ -34,7 +34,7 @@ public class AddCommandTest {
 
     @Test
     public void execute_personAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        AddressModelStubAcceptingPersonAdded modelStub = new AddressModelStubAcceptingPersonAdded();
         Person validPerson = new PersonBuilder().build();
 
         CommandResult commandResult = new AddCommand(validPerson).execute(modelStub);
@@ -48,7 +48,7 @@ public class AddCommandTest {
     public void execute_duplicatePerson_throwsCommandException() {
         Person validPerson = new PersonBuilder().build();
         AddCommand addCommand = new AddCommand(validPerson);
-        ModelStub modelStub = new ModelStubWithPerson(validPerson);
+        AddressModelStub modelStub = new AddressModelStubWithPerson(validPerson);
 
         assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_CONTACT, () -> addCommand.execute(modelStub));
     }
@@ -58,7 +58,7 @@ public class AddCommandTest {
         Person validPerson = new PersonBuilder().build();
         AddCommand addCommand = new AddCommand(validPerson);
         Person otherPerson = new PersonBuilder().withName("Alice").build();
-        ModelStub modelStub = new ModelStubWithPerson(otherPerson);
+        AddressModelStub modelStub = new AddressModelStubWithPerson(otherPerson);
 
         assertThrows(CommandException.class, AddCommand.MESSAGE_PHONE_EXIST, () -> addCommand.execute(modelStub));
     }
@@ -68,7 +68,7 @@ public class AddCommandTest {
         Person validPerson = new PersonBuilder().build();
         AddCommand addCommand = new AddCommand(validPerson);
         Person otherPerson = new PersonBuilder().withName("Alice").withPhone("91234567").build();
-        ModelStub modelStub = new ModelStubWithPerson(otherPerson);
+        AddressModelStub modelStub = new AddressModelStubWithPerson(otherPerson);
 
         assertThrows(CommandException.class, AddCommand.MESSAGE_EMAIL_EXIST, () -> addCommand.execute(modelStub));
     }
@@ -107,7 +107,7 @@ public class AddCommandTest {
     /**
      * A default model stub that have all of the methods failing.
      */
-    private class ModelStub implements Model {
+    private class AddressModelStub implements AddressModel {
         @Override
         public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
             throw new AssertionError("This method should not be called.");
@@ -194,10 +194,10 @@ public class AddCommandTest {
     /**
      * A Model stub that contains a single person.
      */
-    private class ModelStubWithPerson extends ModelStub {
+    private class AddressModelStubWithPerson extends AddressModelStub {
         private final Person person;
 
-        ModelStubWithPerson(Person person) {
+        AddressModelStubWithPerson(Person person) {
             requireNonNull(person);
             this.person = person;
         }
@@ -222,7 +222,7 @@ public class AddCommandTest {
     /**
      * A Model stub that always accept the person being added.
      */
-    private class ModelStubAcceptingPersonAdded extends ModelStub {
+    private class AddressModelStubAcceptingPersonAdded extends AddressModelStub {
         final ArrayList<Person> personsAdded = new ArrayList<>();
 
         @Override

@@ -1,4 +1,4 @@
-package seedu.address.model;
+package seedu.address.model.book.addressbook;
 
 import static java.util.Objects.requireNonNull;
 
@@ -13,7 +13,7 @@ import seedu.address.model.person.UniquePersonList;
  * Wraps all data at the address-book level
  * Duplicates are not allowed (by .isSamePerson comparison)
  */
-public class AddressBook implements ReadOnlyAddressBook {
+public class AddressBook extends ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
 

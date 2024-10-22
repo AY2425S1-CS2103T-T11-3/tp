@@ -10,13 +10,13 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.Model;
+import seedu.address.model.book.addressbook.AddressModel;
 import seedu.address.model.person.Person;
 
 /**
  * Adds a person to the address book.
  */
-public class AddCommand extends Command {
+public class AddCommand extends PersonCommand {
 
     public static final String COMMAND_WORD = "add";
 
@@ -51,20 +51,20 @@ public class AddCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
-        requireNonNull(model);
+    public CommandResult execute(AddressModel addressModel) throws CommandException {
+        requireNonNull(addressModel);
 
-        if (model.hasPerson(toAdd)) {
+        if (addressModel.hasPerson(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_CONTACT);
         }
-        if (model.hasPhone(toAdd)) {
+        if (addressModel.hasPhone(toAdd)) {
             throw new CommandException(MESSAGE_PHONE_EXIST);
         }
-        if (model.hasEmail(toAdd)) {
+        if (addressModel.hasEmail(toAdd)) {
             throw new CommandException(MESSAGE_EMAIL_EXIST);
         }
 
-        model.addPerson(toAdd);
+        addressModel.addPerson(toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
     }
 

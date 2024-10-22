@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
+import seedu.address.model.book.addressbook.AddressModel;
+import seedu.address.model.book.addressbook.AddressModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
@@ -25,11 +25,11 @@ import seedu.address.testutil.TagPersonDescriptorBuilder;
 
 public class TagCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private AddressModel addressModel = new AddressModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
     public void execute_addValidTag_success() throws Exception {
-        Person personToTag = model.getFilteredPersonList().get(0); // Assuming Alice is the first person
+        Person personToTag = addressModel.getFilteredPersonList().get(0); // Assuming Alice is the first person
         Name name = new Name("Alice Pauline");
 
         // Create a set of tags that includes the existing tags and the new tag
@@ -50,26 +50,26 @@ public class TagCommandTest {
         // Create the expected person with the new tags as strings
         Person expectedPerson = new PersonBuilder(personToTag).withTags(newTags.toArray(new String[0])).build();
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.setPerson(personToTag, expectedPerson);
+        AddressModel expectedAddressModel = new AddressModelManager(addressModel.getAddressBook(), new UserPrefs());
+        expectedAddressModel.setPerson(personToTag, expectedPerson);
 
-        CommandResult result = tagCommand.execute(model);
+        CommandResult result = tagCommand.execute(addressModel);
 
         assertEquals(String.format(TagCommand.MESSAGE_TAG_PERSON_SUCCESS, Messages.format(expectedPerson)),
                 result.getFeedbackToUser());
-        assertEquals(expectedModel, model);
+        assertEquals(expectedAddressModel, addressModel);
     }
 
     @Test
     public void execute_tagAlreadyExists_throwsCommandException() {
-        Person personToTag = model.getFilteredPersonList().get(0);
+        Person personToTag = addressModel.getFilteredPersonList().get(0);
 
         Name name = new Name(VALID_NAME_AMY);
         TagCommand.TagPersonDescriptor descriptor = new TagPersonDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
 
         TagCommand tagCommand = new TagCommand(name, descriptor);
 
-        assertThrows(CommandException.class, () -> tagCommand.execute(model),
+        assertThrows(CommandException.class, () -> tagCommand.execute(addressModel),
                 String.format(TagCommand.MESSAGE_DUPLICATE_TAG, personToTag.getName()));
     }
 

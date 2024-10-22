@@ -5,12 +5,13 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.Objects;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.book.BookObject;
 import seedu.address.model.person.Person;
 
 /**
  * Represents a wedding plan.
  */
-public class Wedding {
+public class Wedding extends BookObject {
     private Husband husband;
     private Wife wife;
     private Date date;
@@ -76,6 +77,10 @@ public class Wedding {
             throw new IllegalArgumentException("This person is a spouse and cannot have another role.");
         }
         contactList.addToMap(role, person);
+    }
+
+    public boolean isSameWedding(Wedding otherWedding) {
+        return this.equals(otherWedding);
     }
 
 
