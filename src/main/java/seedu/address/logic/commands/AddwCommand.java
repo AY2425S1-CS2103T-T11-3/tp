@@ -1,30 +1,34 @@
-package seedu.address.logic.commands.wedding;
+package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_HUSBAND_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_VENUE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_WIFE_NAME;
+import static seedu.address.logic.parser.CliSyntax.*;
 
 import seedu.address.logic.Messages;
-import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.book.weddingbook.WeddingModel;
+import seedu.address.model.Model;
+import seedu.address.model.book.weddingbook.WeddingBookModel;
 import seedu.address.model.wedding.Wedding;
 
 
 /**
  * Adds a wedding to the Address Book.
  */
-public class AddwCommand extends WeddingCommand {
+public class AddwCommand extends Command {
     public static final String COMMAND_WORD = "addw";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a wedding to the address book. "
             + "Parameters: "
             + PREFIX_HUSBAND_NAME + "HUSBAND'S NAME "
+            + PREFIX_HUSBAND_FULLNAME + "HUSBAND'S FULLNAME"
+            + PREFIX_HUSBAND_PHONE + "HUSBAND'S PHONE"
+            + PREFIX_HUSBAND_EMAIL + "HUSBAND'S EMAIL"
+            + PREFIX_HUSBAND_ADDRESS + "HUSBAND'S ADDRESS"
             + PREFIX_WIFE_NAME + "WIFE'S NAME"
+            + PREFIX_WIFE_FULLNAME + "WIFE'S FULLNAME"
+            + PREFIX_WIFE_PHONE + "WIFE'S PHONE"
+            + PREFIX_WIFE_EMAIL + "WIFE'S EMAIL"
+            + PREFIX_WIFE_ADDRESS + "WIFE'S ADDRESS"
             + PREFIX_DATE + "DATE "
             + PREFIX_VENUE + "VENUE ";
 
@@ -40,16 +44,23 @@ public class AddwCommand extends WeddingCommand {
         toAdd = wedding;
     }
 
-    @Override
-    public CommandResult execute(WeddingModel model) throws CommandException {
-        requireNonNull(model);
+    public CommandResult execute(Model model) throws CommandException {
+        if (!(model instanceof WeddingBookModel)) {
+            return null;
+        }
+        WeddingBookModel weddingBookModel = (WeddingBookModel) model;
+        return this.executeCommand(weddingBookModel);
+    }
 
-        if (model.hasWedding(toAdd)) {
+    public WeddingCommandResult executeCommand(WeddingBookModel weddingBookModel) throws CommandException {
+        requireNonNull(weddingBookModel);
+
+        if (weddingBookModel.hasObject(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_WEDDING);
         }
 
-        model.addWedding(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
+        weddingBookModel.addObject(toAdd);
+        return new WeddingCommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
     }
 
     @Override

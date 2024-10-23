@@ -6,7 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.model.book.addressbook.AddressModel.PREDICATE_SHOW_ALL_PERSONS;
+import static seedu.address.model.book.addressbook.AddressBookModel.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -20,7 +20,8 @@ import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.book.addressbook.AddressModel;
+import seedu.address.model.Model;
+import seedu.address.model.book.addressbook.AddressBookModel;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -31,7 +32,7 @@ import seedu.address.model.tag.Tag;
 /**
  * Edits the details of an existing person in the address book.
  */
-public class EditCommand extends PersonCommand {
+public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
 
@@ -68,9 +69,17 @@ public class EditCommand extends PersonCommand {
     }
 
     @Override
-    public CommandResult execute(AddressModel addressModel) throws CommandException {
-        requireNonNull(addressModel);
-        List<Person> lastShownList = addressModel.getFilteredPersonList();
+    public CommandResult execute(Model model) throws CommandException {
+        if (!(model instanceof AddressBookModel)) {
+            return null;
+        }
+        AddressBookModel addressBookModel = (AddressBookModel) model;
+        return this.executeCommand(addressBookModel);
+    }
+
+    public PersonCommandResult executeCommand(AddressBookModel addressBookModel) throws CommandException {
+        requireNonNull(addressBookModel);
+        List<Person> lastShownList = addressBookModel.getFilteredPersonList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
@@ -80,13 +89,14 @@ public class EditCommand extends PersonCommand {
         Person personToEdit = lastShownList.get(index.getZeroBased());
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
-        if (!personToEdit.isSamePerson(editedPerson) && addressModel.hasPerson(editedPerson)) {
+        if (!personToEdit.isSamePerson(editedPerson) && addressBookModel.hasPerson(editedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
-        addressModel.setPerson(personToEdit, editedPerson);
-        addressModel.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
+        addressBookModel.setPerson(personToEdit, editedPerson);
+        addressBookModel.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        return new PersonCommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
+
     }
 
     /**

@@ -48,6 +48,22 @@ public class CommandResult {
         return exit;
     }
 
+    public static CommandResult selectNonNull(CommandResult cr1, CommandResult cr2) {
+        if (cr1 == null && cr2 == null) {
+            throw new IllegalArgumentException("Both results are null!");
+        } else if (cr1 == null) {
+            return cr2;
+        } else if (cr2 == null) {
+            return cr1;
+        } else {
+            if (cr1 == cr2) {
+                return cr1;
+            } else {
+                throw new IllegalArgumentException("Both results are non null!");
+            }
+        }
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {

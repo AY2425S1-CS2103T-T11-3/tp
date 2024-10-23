@@ -1,13 +1,11 @@
 package seedu.address.logic.parser;
 
-import seedu.address.logic.commands.Command;
-import seedu.address.logic.commands.PersonCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
- * Represents a Parser that is able to parse user input into a {@code nCommand} of type {@code T}.
+ * Represents a Parser that is able to parse user input into a {@code Command} of type {@code T}.
  */
-public interface Parser<T extends Command> {
+public interface Parser<T> {
 
     /**
      * Parses {@code userInput} into a command and returns it.

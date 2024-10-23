@@ -6,8 +6,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.book.addressbook.AddressModelManager;
-import seedu.address.model.book.weddingbook.ReadOnlyWeddingBook;
+import seedu.address.model.book.addressbook.AddressBookModelManager;
 import seedu.address.model.wedding.Wedding;
 
 import java.nio.file.Path;
@@ -17,8 +16,8 @@ import java.util.logging.Logger;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-public class WeddingModelManager extends WeddingModel {
-    private static final Logger logger = LogsCenter.getLogger(WeddingModelManager.class);
+public class WeddingBookModelManager extends WeddingBookModel {
+    private static final Logger logger = LogsCenter.getLogger(WeddingBookModelManager.class);
 
     private final WeddingBook weddingBook;
     private final UserPrefs userPrefs;
@@ -27,7 +26,7 @@ public class WeddingModelManager extends WeddingModel {
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public WeddingModelManager(seedu.address.model.book.weddingbook.ReadOnlyWeddingBook weddingBook, ReadOnlyUserPrefs userPrefs) {
+    public WeddingBookModelManager(seedu.address.model.book.weddingbook.ReadOnlyWeddingBook weddingBook, ReadOnlyUserPrefs userPrefs) {
         requireAllNonNull(weddingBook, userPrefs);
 
         logger.fine("Initializing with wedding book: " + weddingBook + " and user prefs " + userPrefs);
@@ -37,7 +36,7 @@ public class WeddingModelManager extends WeddingModel {
         filteredWeddings = new FilteredList<>(this.weddingBook.getWeddingList());
     }
 
-    public WeddingModelManager() {
+    public WeddingBookModelManager() {
         this(new WeddingBook(), new UserPrefs());
     }
 
@@ -135,11 +134,11 @@ public class WeddingModelManager extends WeddingModel {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof AddressModelManager)) {
+        if (!(other instanceof AddressBookModelManager)) {
             return false;
         }
 
-        WeddingModelManager otherModelManager = (WeddingModelManager) other;
+        WeddingBookModelManager otherModelManager = (WeddingBookModelManager) other;
         return weddingBook.equals(otherModelManager.weddingBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
                 && filteredWeddings.equals(otherModelManager.filteredWeddings);

@@ -136,6 +136,9 @@ public class ParserUtil {
     public static Date parseDate(String date) throws ParseException {
         requireNonNull(date);
         String trimmedDate = date.trim();
+        if (trimmedDate.isEmpty()) {
+            return null;
+        }
         if (!Date.isValidDate(trimmedDate)) {
             throw new ParseException(Date.MESSAGE_CONSTRAINTS);
         }
@@ -151,6 +154,9 @@ public class ParserUtil {
     public static Venue parseVenue(String venue) throws ParseException {
         requireNonNull(venue);
         String trimmedVenue = venue.trim();
+        if (trimmedVenue.isEmpty()) {
+            return null;
+        }
         if (!Venue.isValidVenue(trimmedVenue)) {
             throw new ParseException(Venue.MESSAGE_CONSTRAINTS);
         }

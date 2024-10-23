@@ -15,8 +15,8 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.book.addressbook.AddressModel;
-import seedu.address.model.book.addressbook.AddressModelManager;
+import seedu.address.model.book.addressbook.AddressBookModelManager;
+import seedu.address.model.book.addressbook.AddressBookModel;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 
@@ -24,8 +24,8 @@ import seedu.address.model.person.NameContainsKeywordsPredicate;
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
  */
 public class FindCommandTest {
-    private AddressModel addressModel = new AddressModelManager(getTypicalAddressBook(), new UserPrefs());
-    private AddressModel expectedAddressModel = new AddressModelManager(getTypicalAddressBook(), new UserPrefs());
+    private AddressBookModel addressAddressBookModel = new AddressBookModelManager(getTypicalAddressBook(), new UserPrefs());
+    private AddressBookModel expectedAddressAddressBookModel = new AddressBookModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
     public void equals() {
@@ -59,9 +59,9 @@ public class FindCommandTest {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
         NameContainsKeywordsPredicate predicate = preparePredicate(" ");
         FindCommand command = new FindCommand(predicate);
-        expectedAddressModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, addressModel, expectedMessage, expectedAddressModel);
-        assertEquals(Collections.emptyList(), addressModel.getFilteredPersonList());
+        expectedAddressAddressBookModel.updateFilteredPersonList(predicate);
+        assertCommandSuccess(command, addressAddressBookModel, expectedMessage, expectedAddressAddressBookModel);
+        assertEquals(Collections.emptyList(), addressAddressBookModel.getFilteredPersonList());
     }
 
     @Test
@@ -69,9 +69,9 @@ public class FindCommandTest {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
         NameContainsKeywordsPredicate predicate = preparePredicate("Kurz Elle Kunz");
         FindCommand command = new FindCommand(predicate);
-        expectedAddressModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, addressModel, expectedMessage, expectedAddressModel);
-        assertEquals(Arrays.asList(CARL, ELLE, FIONA), addressModel.getFilteredPersonList());
+        expectedAddressAddressBookModel.updateFilteredPersonList(predicate);
+        assertCommandSuccess(command, addressAddressBookModel, expectedMessage, expectedAddressAddressBookModel);
+        assertEquals(Arrays.asList(CARL, ELLE, FIONA), addressAddressBookModel.getFilteredPersonList());
     }
 
     @Test

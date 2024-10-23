@@ -38,4 +38,4 @@ This project has three types of tests:
 1. *Integration tests* that are checking the integration of multiple code units (those code units are assumed to be working).<br>
    e.g. `seedu.address.storage.StorageManagerTest`
 1. Hybrids of unit and integration tests. These test are checking multiple code units as well as how the are connected together.<br>
-   e.g. `seedu.address.logic.AddressLogicManagerTest`
+   e.g. `seedu.address.logic.LogicManagerTest`

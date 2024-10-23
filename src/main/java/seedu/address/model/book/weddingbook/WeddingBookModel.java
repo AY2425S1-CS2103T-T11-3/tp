@@ -14,7 +14,7 @@ import seedu.address.model.wedding.Wedding;
 /**
  * The API of the WeddingModel component.
  */
-public abstract class WeddingModel implements Model {
+public abstract class WeddingBookModel implements Model {
     public static Predicate<Wedding> PREDICATE_SHOW_ALL_WEDDINGS = unused -> true;
     public abstract void setUserPrefs(ReadOnlyUserPrefs userPrefs);
 

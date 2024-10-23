@@ -9,7 +9,11 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.book.BookObject;
 import seedu.address.model.book.ReadOnlyBook;
-import seedu.address.model.book.addressbook.AddressModel;
+import seedu.address.model.book.addressbook.AddressBookModel;
+import seedu.address.model.book.addressbook.ReadOnlyAddressBook;
+import seedu.address.model.book.weddingbook.ReadOnlyWeddingBook;
+import seedu.address.model.person.Person;
+import seedu.address.model.wedding.Wedding;
 
 /**
  * API of the Logic component
@@ -27,17 +31,23 @@ public interface Logic {
     /**
      * Returns the Book.
      *
-     * @see AddressModel#getAddressBook()
+     * @see AddressBookModel#getAddressBook()
      */
-    ReadOnlyBook<? extends BookObject> getBook();
+    ReadOnlyAddressBook getAddressBook();
 
     /** Returns an unmodifiable view of the filtered list */
-    ObservableList<? extends BookObject> getFilteredList();
+    ObservableList<Person> getFilteredPersonList();
 
     /**
      * Returns the user prefs'  book file path.
      */
-    Path getBookFilePath();
+    Path getAddressBookFilePath();
+
+    ReadOnlyWeddingBook getWeddingBook();
+
+    ObservableList<Wedding> getFilteredWeddingList();
+
+    Path getWeddingBookFilePath();
 
     /**
      * Returns the user prefs' GUI settings.

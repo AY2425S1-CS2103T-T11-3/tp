@@ -6,27 +6,27 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.book.addressbook.AddressBook;
-import seedu.address.model.book.addressbook.AddressModel;
-import seedu.address.model.book.addressbook.AddressModelManager;
+import seedu.address.model.book.addressbook.AddressBookModel;
+import seedu.address.model.book.addressbook.AddressBookModelManager;
 import seedu.address.model.UserPrefs;
 
 public class ClearCommandTest {
 
     @Test
     public void execute_emptyAddressBook_success() {
-        AddressModel addressModel = new AddressModelManager();
-        AddressModel expectedAddressModel = new AddressModelManager();
+        AddressBookModel addressAddressBookModel = new AddressBookModelManager();
+        AddressBookModel expectedAddressAddressBookModel = new AddressBookModelManager();
 
-        assertCommandSuccess(new ClearCommand(), addressModel, ClearCommand.MESSAGE_SUCCESS, expectedAddressModel);
+        assertCommandSuccess(new ClearCommand(), addressAddressBookModel, ClearCommand.MESSAGE_SUCCESS, expectedAddressAddressBookModel);
     }
 
     @Test
     public void execute_nonEmptyAddressBook_success() {
-        AddressModel addressModel = new AddressModelManager(getTypicalAddressBook(), new UserPrefs());
-        AddressModel expectedAddressModel = new AddressModelManager(getTypicalAddressBook(), new UserPrefs());
-        expectedAddressModel.setAddressBook(new AddressBook());
+        AddressBookModel addressAddressBookModel = new AddressBookModelManager(getTypicalAddressBook(), new UserPrefs());
+        AddressBookModel expectedAddressAddressBookModel = new AddressBookModelManager(getTypicalAddressBook(), new UserPrefs());
+        expectedAddressAddressBookModel.setAddressBook(new AddressBook());
 
-        assertCommandSuccess(new ClearCommand(), addressModel, ClearCommand.MESSAGE_SUCCESS, expectedAddressModel);
+        assertCommandSuccess(new ClearCommand(), addressAddressBookModel, ClearCommand.MESSAGE_SUCCESS, expectedAddressAddressBookModel);
     }
 
 }

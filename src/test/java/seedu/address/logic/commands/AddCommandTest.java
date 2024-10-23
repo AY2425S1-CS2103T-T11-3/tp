@@ -19,7 +19,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.book.addressbook.AddressBook;
-import seedu.address.model.book.addressbook.AddressModel;
+import seedu.address.model.book.addressbook.AddressBookModel;
 import seedu.address.model.book.addressbook.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
@@ -107,7 +107,7 @@ public class AddCommandTest {
     /**
      * A default model stub that have all of the methods failing.
      */
-    private class AddressModelStub implements AddressModel {
+    private class AddressModelStub extends AddressBookModel {
         @Override
         public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
             throw new AssertionError("This method should not be called.");

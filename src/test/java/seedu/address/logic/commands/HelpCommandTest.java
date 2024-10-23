@@ -5,16 +5,16 @@ import static seedu.address.logic.commands.HelpCommand.SHOWING_HELP_MESSAGE;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.book.addressbook.AddressModel;
-import seedu.address.model.book.addressbook.AddressModelManager;
+import seedu.address.model.book.addressbook.AddressBookModel;
+import seedu.address.model.book.addressbook.AddressBookModelManager;
 
 public class HelpCommandTest {
-    private AddressModel addressModel = new AddressModelManager();
-    private AddressModel expectedAddressModel = new AddressModelManager();
+    private AddressBookModel addressAddressBookModel = new AddressBookModelManager();
+    private AddressBookModel expectedAddressAddressBookModel = new AddressBookModelManager();
 
     @Test
     public void execute_help_success() {
         CommandResult expectedCommandResult = new CommandResult(SHOWING_HELP_MESSAGE, true, false);
-        assertCommandSuccess(new HelpCommand(), addressModel, expectedCommandResult, expectedAddressModel);
+        assertCommandSuccess(new HelpCommand(), addressAddressBookModel, expectedCommandResult, expectedAddressAddressBookModel);
     }
 }

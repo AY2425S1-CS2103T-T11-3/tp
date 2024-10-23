@@ -6,7 +6,6 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.model.Model;
 import seedu.address.model.book.BookObject;
 import seedu.address.model.book.ReadOnlyBook;
 import seedu.address.model.ReadOnlyUserPrefs;
@@ -15,7 +14,7 @@ import seedu.address.model.person.Person;
 /**
  * The API of the AddressModel component.
  */
-public abstract class AddressModel implements Model {
+public abstract class AddressBookModel implements seedu.address.model.Model {
     /** {@code Predicate} that always evaluate to true */
     public static Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
 

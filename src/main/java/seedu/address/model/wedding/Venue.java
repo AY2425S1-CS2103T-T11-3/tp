@@ -35,6 +35,9 @@ public class Venue {
 
     @Override
     public String toString() {
+        if (fullVenue == null) {
+            return "";
+        }
         return fullVenue;
     }
 

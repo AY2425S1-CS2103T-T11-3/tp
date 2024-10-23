@@ -1,4 +1,4 @@
-package seedu.address.logic.parser.wedding;
+package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.*;
@@ -7,8 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import seedu.address.logic.commands.wedding.AddwCommand;
-import seedu.address.logic.parser.*;
+import seedu.address.logic.commands.AddwCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.*;
 import seedu.address.model.tag.Tag;
@@ -64,8 +63,8 @@ public class AddwCommandParser implements Parser<AddwCommand> {
         Email wifeEmail = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_WIFE_EMAIL).get());
         Address wifeAddress = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_WIFE_ADDRESS).get());
 
-        Date date = ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get());
-        Venue venue = ParserUtil.parseVenue(argMultimap.getValue(PREFIX_VENUE).get());
+        Date date = ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).orElse(""));
+        Venue venue = ParserUtil.parseVenue(argMultimap.getValue(PREFIX_VENUE).orElse("'"));
 
         Set<Tag> tagSet = new HashSet<>();
         tagSet.add(new Tag("Client"));

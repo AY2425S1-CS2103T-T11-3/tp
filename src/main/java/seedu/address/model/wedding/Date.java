@@ -49,6 +49,9 @@ public class Date {
 
     @Override
     public String toString() {
+        if (fullDate == null) {
+            return "";
+        }
         return fullDate.toString();
     }
 

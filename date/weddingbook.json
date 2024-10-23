@@ -1,0 +1,22 @@
+{
+  "weddings" : [ {
+    "husbandName" : "alex",
+    "husband" : {
+      "name" : "alex yeo",
+      "phone" : "00000000",
+      "email" : "alexyeo@gmail.com",
+      "address" : "sin",
+      "tags" : [ "Client" ]
+    },
+    "wifeName" : "alex",
+    "wife" : {
+      "name" : "alice tan",
+      "phone" : "11111111",
+      "email" : "alicetan@gmail.com",
+      "address" : "sin",
+      "tags" : [ "Client" ]
+    },
+    "date" : "2024-10-20",
+    "venue" : "grand hyatt"
+  } ]
+}

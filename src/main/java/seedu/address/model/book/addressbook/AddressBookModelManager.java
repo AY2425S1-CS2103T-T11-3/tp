@@ -18,8 +18,8 @@ import seedu.address.model.person.Person;
 /**
  * Represents the in-memory model of the address book data.
  */
-public class AddressModelManager extends AddressModel {
-    private static final Logger logger = LogsCenter.getLogger(AddressModelManager.class);
+public class AddressBookModelManager extends AddressBookModel {
+    private static final Logger logger = LogsCenter.getLogger(AddressBookModelManager.class);
 
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
@@ -28,7 +28,7 @@ public class AddressModelManager extends AddressModel {
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public AddressModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs) {
+    public AddressBookModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs) {
         requireAllNonNull(addressBook, userPrefs);
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
@@ -38,7 +38,7 @@ public class AddressModelManager extends AddressModel {
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
     }
 
-    public AddressModelManager() {
+    public AddressBookModelManager() {
         this(new AddressBook(), new UserPrefs());
     }
 
@@ -149,11 +149,11 @@ public class AddressModelManager extends AddressModel {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof AddressModelManager)) {
+        if (!(other instanceof AddressBookModelManager)) {
             return false;
         }
 
-        AddressModelManager otherModelManager = (AddressModelManager) other;
+        AddressBookModelManager otherModelManager = (AddressBookModelManager) other;
         return addressBook.equals(otherModelManager.addressBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
                 && filteredPersons.equals(otherModelManager.filteredPersons);

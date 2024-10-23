@@ -18,8 +18,8 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.book.addressbook.AddressModel;
-import seedu.address.model.book.addressbook.AddressModelManager;
+import seedu.address.model.book.addressbook.AddressBookModelManager;
+import seedu.address.model.book.addressbook.AddressBookModel;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.NameMatchesNamePredicate;
 
@@ -27,8 +27,8 @@ import seedu.address.model.person.NameMatchesNamePredicate;
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
  */
 public class ViewCommandTest {
-    private AddressModel addressModel = new AddressModelManager(getTypicalAddressBook(), new UserPrefs());
-    private AddressModel expectedAddressModel = new AddressModelManager(getTypicalAddressBook(), new UserPrefs());
+    private AddressBookModel addressAddressBookModel = new AddressBookModelManager(getTypicalAddressBook(), new UserPrefs());
+    private AddressBookModel expectedAddressAddressBookModel = new AddressBookModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
     public void equals() {
@@ -62,9 +62,9 @@ public class ViewCommandTest {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
         NameMatchesNamePredicate predicate = preparePredicate(" ");
         ViewCommand command = new ViewCommand(predicate);
-        expectedAddressModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, addressModel, expectedMessage, expectedAddressModel);
-        assertEquals(Collections.emptyList(), addressModel.getFilteredPersonList());
+        expectedAddressAddressBookModel.updateFilteredPersonList(predicate);
+        assertCommandSuccess(command, addressAddressBookModel, expectedMessage, expectedAddressAddressBookModel);
+        assertEquals(Collections.emptyList(), addressAddressBookModel.getFilteredPersonList());
     }
 
     @Test
@@ -72,9 +72,9 @@ public class ViewCommandTest {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
         NameMatchesNamePredicate predicate = preparePredicate("Kurz Elle Kunz");
         ViewCommand command = new ViewCommand(predicate);
-        expectedAddressModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, addressModel, expectedMessage, expectedAddressModel);
-        assertEquals(Arrays.asList(CARL, ELLE, FIONA), addressModel.getFilteredPersonList());
+        expectedAddressAddressBookModel.updateFilteredPersonList(predicate);
+        assertCommandSuccess(command, addressAddressBookModel, expectedMessage, expectedAddressAddressBookModel);
+        assertEquals(Arrays.asList(CARL, ELLE, FIONA), addressAddressBookModel.getFilteredPersonList());
     }
 
     @Test
@@ -82,9 +82,9 @@ public class ViewCommandTest {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 2);
         NameMatchesNamePredicate predicate = preparePredicate(KEYWORD_MATCHING_MEIER);
         ViewCommand command = new ViewCommand(predicate);
-        expectedAddressModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, addressModel, expectedMessage, expectedAddressModel);
-        assertEquals(Arrays.asList(BENSON, DANIEL), addressModel.getFilteredPersonList());
+        expectedAddressAddressBookModel.updateFilteredPersonList(predicate);
+        assertCommandSuccess(command, addressAddressBookModel, expectedMessage, expectedAddressAddressBookModel);
+        assertEquals(Arrays.asList(BENSON, DANIEL), addressAddressBookModel.getFilteredPersonList());
     }
 
     @Test

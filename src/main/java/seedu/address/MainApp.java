@@ -14,17 +14,17 @@ import seedu.address.commons.core.Version;
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.commons.util.ConfigUtil;
 import seedu.address.commons.util.StringUtil;
-import seedu.address.logic.AddressLogicManager;
-import seedu.address.logic.WeddingLogicManager;
+import seedu.address.logic.Logic;
+import seedu.address.logic.LogicManager;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.book.addressbook.AddressBook;
-import seedu.address.model.book.addressbook.AddressModel;
-import seedu.address.model.book.addressbook.AddressModelManager;
+import seedu.address.model.book.addressbook.AddressBookModel;
+import seedu.address.model.book.addressbook.AddressBookModelManager;
 import seedu.address.model.book.addressbook.ReadOnlyAddressBook;
 import seedu.address.model.book.weddingbook.WeddingBook;
-import seedu.address.model.book.weddingbook.WeddingModel;
-import seedu.address.model.book.weddingbook.WeddingModelManager;
+import seedu.address.model.book.weddingbook.WeddingBookModel;
+import seedu.address.model.book.weddingbook.WeddingBookModelManager;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.*;
 import seedu.address.ui.Ui;
@@ -41,12 +41,10 @@ public class MainApp extends Application {
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     protected Ui ui;
-    protected AddressLogicManager addressLogic;
-    protected WeddingLogicManager weddingLogic;
+    protected Logic logic;
     protected Storage storage;
-    protected Storage weddingStorage;
-    protected AddressModel addressModel;
-    protected WeddingModel weddingModel;
+    protected AddressBookModel addressBookModel;
+    protected WeddingBookModel weddingBookModel;
     protected Config config;
 
     @Override
@@ -65,13 +63,12 @@ public class MainApp extends Application {
 
         storage = new StorageManager(addressBookStorage, weddingBookStorage, userPrefsStorage);
 
-        addressModel = initAddressModelManager(storage, userPrefs);
-        weddingModel = initWeddingModelManager(storage, userPrefs);
+        addressBookModel = initAddressModelManager(storage, userPrefs);
+        weddingBookModel = initWeddingModelManager(storage, userPrefs);
 
-        addressLogic = new AddressLogicManager(addressModel, storage);
-        weddingLogic = new WeddingLogicManager(weddingModel, storage);
+        logic = new LogicManager(addressBookModel, weddingBookModel, storage);
 
-        ui = new UiManager(addressLogic, weddingLogic);
+        ui = new UiManager(logic);
     }
 
     /**
@@ -79,7 +76,7 @@ public class MainApp extends Application {
      * The data from the sample address book will be used instead if {@code storage}'s address book is not found,
      * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
      */
-    private AddressModel initAddressModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
+    private AddressBookModel initAddressModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
         logger.info("Using data file : " + storage.getAddressBookFilePath());
 
         Optional<ReadOnlyAddressBook> addressBookOptional;
@@ -97,10 +94,10 @@ public class MainApp extends Application {
             initialData = new AddressBook();
         }
 
-        return new AddressModelManager(initialData, userPrefs);
+        return new AddressBookModelManager(initialData, userPrefs);
     }
 
-    private WeddingModel initWeddingModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
+    private WeddingBookModel initWeddingModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
         logger.info("Using data file : " + storage.getWeddingBookFilePath());
 
         Optional<seedu.address.model.book.weddingbook.ReadOnlyWeddingBook> weddingBookOptional;
@@ -118,7 +115,7 @@ public class MainApp extends Application {
             initialData = new WeddingBook();
         }
 
-        return new WeddingModelManager(initialData, userPrefs);
+        return new WeddingBookModelManager(initialData, userPrefs);
     }
 
     private void initLogging(Config config) {
@@ -206,7 +203,7 @@ public class MainApp extends Application {
     public void stop() {
         logger.info("============================ [ Stopping AddressBook ] =============================");
         try {
-            storage.saveUserPrefs(addressModel.getUserPrefs());
+            storage.saveUserPrefs(addressBookModel.getUserPrefs());
 //            weddingStorage.saveUserPrefs(weddingModel.getUserPrefs());
         } catch (IOException e) {
             logger.severe("Failed to save preferences " + StringUtil.getDetails(e));

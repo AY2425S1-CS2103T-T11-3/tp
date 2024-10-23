@@ -10,13 +10,15 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.book.addressbook.AddressModel;
+import seedu.address.model.Model;
+import seedu.address.model.book.addressbook.AddressBookModel;
+import seedu.address.model.book.weddingbook.WeddingBookModel;
 import seedu.address.model.person.Person;
 
 /**
  * Adds a person to the address book.
  */
-public class AddCommand extends PersonCommand {
+public class AddCommand extends Command {
 
     public static final String COMMAND_WORD = "add";
 
@@ -51,21 +53,29 @@ public class AddCommand extends PersonCommand {
     }
 
     @Override
-    public CommandResult execute(AddressModel addressModel) throws CommandException {
-        requireNonNull(addressModel);
+    public CommandResult execute(Model model) throws CommandException {
+        if (!(model instanceof AddressBookModel)) {
+            return null;
+        }
+        AddressBookModel addressBookModel = (AddressBookModel) model;
+        return this.executeCommand(addressBookModel);
+    }
 
-        if (addressModel.hasPerson(toAdd)) {
+    public PersonCommandResult executeCommand(AddressBookModel addressBookModel) throws CommandException {
+        requireNonNull(addressBookModel);
+
+        if (addressBookModel.hasPerson(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_CONTACT);
         }
-        if (addressModel.hasPhone(toAdd)) {
+        if (addressBookModel.hasPhone(toAdd)) {
             throw new CommandException(MESSAGE_PHONE_EXIST);
         }
-        if (addressModel.hasEmail(toAdd)) {
+        if (addressBookModel.hasEmail(toAdd)) {
             throw new CommandException(MESSAGE_EMAIL_EXIST);
         }
 
-        addressModel.addPerson(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
+        addressBookModel.addPerson(toAdd);
+        return new PersonCommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
     }
 
     @Override

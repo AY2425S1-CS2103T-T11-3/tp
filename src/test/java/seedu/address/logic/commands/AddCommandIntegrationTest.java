@@ -8,8 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
-import seedu.address.model.book.addressbook.AddressModel;
-import seedu.address.model.book.addressbook.AddressModelManager;
+import seedu.address.model.book.addressbook.AddressBookModelManager;
+import seedu.address.model.book.addressbook.AddressBookModel;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
@@ -19,29 +19,29 @@ import seedu.address.testutil.PersonBuilder;
  */
 public class AddCommandIntegrationTest {
 
-    private AddressModel addressModel;
+    private AddressBookModel addressAddressBookModel;
 
     @BeforeEach
     public void setUp() {
-        addressModel = new AddressModelManager(getTypicalAddressBook(), new UserPrefs());
+        addressAddressBookModel = new AddressBookModelManager(getTypicalAddressBook(), new UserPrefs());
     }
 
     @Test
     public void execute_newPerson_success() {
         Person validPerson = new PersonBuilder().build();
 
-        AddressModel expectedAddressModel = new AddressModelManager(addressModel.getAddressBook(), new UserPrefs());
-        expectedAddressModel.addPerson(validPerson);
+        AddressBookModel expectedAddressAddressBookModel = new AddressBookModelManager(addressAddressBookModel.getAddressBook(), new UserPrefs());
+        expectedAddressAddressBookModel.addPerson(validPerson);
 
-        assertCommandSuccess(new AddCommand(validPerson), addressModel,
+        assertCommandSuccess(new AddCommand(validPerson), addressAddressBookModel,
                 String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
-                expectedAddressModel);
+                expectedAddressAddressBookModel);
     }
 
     @Test
     public void execute_duplicatePerson_throwsCommandException() {
-        Person personInList = addressModel.getAddressBook().getPersonList().get(0);
-        assertCommandFailure(new AddCommand(personInList), addressModel,
+        Person personInList = addressAddressBookModel.getAddressBook().getPersonList().get(0);
+        assertCommandFailure(new AddCommand(personInList), addressAddressBookModel,
                 AddCommand.MESSAGE_DUPLICATE_CONTACT);
     }
 

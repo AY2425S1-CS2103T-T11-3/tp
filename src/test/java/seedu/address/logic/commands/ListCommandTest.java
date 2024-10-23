@@ -8,8 +8,8 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.book.addressbook.AddressModel;
-import seedu.address.model.book.addressbook.AddressModelManager;
+import seedu.address.model.book.addressbook.AddressBookModelManager;
+import seedu.address.model.book.addressbook.AddressBookModel;
 import seedu.address.model.UserPrefs;
 
 /**
@@ -17,23 +17,23 @@ import seedu.address.model.UserPrefs;
  */
 public class ListCommandTest {
 
-    private AddressModel addressModel;
-    private AddressModel expectedAddressModel;
+    private AddressBookModel addressAddressBookModel;
+    private AddressBookModel expectedAddressAddressBookModel;
 
     @BeforeEach
     public void setUp() {
-        addressModel = new AddressModelManager(getTypicalAddressBook(), new UserPrefs());
-        expectedAddressModel = new AddressModelManager(addressModel.getAddressBook(), new UserPrefs());
+        addressAddressBookModel = new AddressBookModelManager(getTypicalAddressBook(), new UserPrefs());
+        expectedAddressAddressBookModel = new AddressBookModelManager(addressAddressBookModel.getAddressBook(), new UserPrefs());
     }
 
     @Test
     public void execute_listIsNotFiltered_showsSameList() {
-        assertCommandSuccess(new ListCommand(), addressModel, ListCommand.MESSAGE_SUCCESS, expectedAddressModel);
+        assertCommandSuccess(new ListCommand(), addressAddressBookModel, ListCommand.MESSAGE_SUCCESS, expectedAddressAddressBookModel);
     }
 
     @Test
     public void execute_listIsFiltered_showsEverything() {
-        showPersonAtIndex(addressModel, INDEX_FIRST_PERSON);
-        assertCommandSuccess(new ListCommand(), addressModel, ListCommand.MESSAGE_SUCCESS, expectedAddressModel);
+        showPersonAtIndex(addressAddressBookModel, INDEX_FIRST_PERSON);
+        assertCommandSuccess(new ListCommand(), addressAddressBookModel, ListCommand.MESSAGE_SUCCESS, expectedAddressAddressBookModel);
     }
 }

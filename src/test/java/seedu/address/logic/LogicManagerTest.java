@@ -23,33 +23,40 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.*;
-import seedu.address.model.book.addressbook.AddressModel;
-import seedu.address.model.book.addressbook.AddressModelManager;
+import seedu.address.model.UserPrefs;
+import seedu.address.model.book.addressbook.AddressBookModel;
+import seedu.address.model.book.addressbook.*;
 import seedu.address.model.book.addressbook.ReadOnlyAddressBook;
+import seedu.address.model.book.weddingbook.ReadOnlyWeddingBook;
+import seedu.address.model.book.weddingbook.WeddingBookModel;
+import seedu.address.model.book.weddingbook.WeddingBookModelManager;
 import seedu.address.model.person.Person;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
+import seedu.address.storage.JsonWeddingBookStorage;
 import seedu.address.storage.StorageManager;
 import seedu.address.testutil.PersonBuilder;
 
-public class AddressLogicManagerTest {
+public class LogicManagerTest {
     private static final IOException DUMMY_IO_EXCEPTION = new IOException("dummy IO exception");
     private static final IOException DUMMY_AD_EXCEPTION = new AccessDeniedException("dummy access denied exception");
 
     @TempDir
     public Path temporaryFolder;
 
-    private AddressModel addressModel = new AddressModelManager();
+    private AddressBookModel addressAddressBookModel = new AddressBookModelManager();
+    private WeddingBookModel weddingBookModel = new WeddingBookModelManager();
     private Logic logic;
 
     @BeforeEach
     public void setUp() {
         JsonAddressBookStorage addressBookStorage =
                 new JsonAddressBookStorage(temporaryFolder.resolve("addressBook.json"));
+        JsonWeddingBookStorage weddingBookStorage =
+                new JsonWeddingBookStorage(temporaryFolder.resolve("weddingBook.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
-        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
-        logic = new AddressLogicManager(addressModel, storage);
+        StorageManager storage = new StorageManager(addressBookStorage, weddingBookStorage, userPrefsStorage);
+        logic = new LogicManager(addressAddressBookModel, weddingBookModel, storage);
     }
 
     @Test
@@ -67,24 +74,24 @@ public class AddressLogicManagerTest {
     @Test
     public void execute_validCommand_success() throws Exception {
         String listCommand = ListCommand.COMMAND_WORD;
-        assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS, addressModel);
+        assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS, addressAddressBookModel);
     }
 
     @Test
     public void execute_storageThrowsIoException_throwsCommandException() {
         assertCommandFailureForExceptionFromStorage(DUMMY_IO_EXCEPTION, String.format(
-                AddressLogicManager.FILE_OPS_ERROR_FORMAT, DUMMY_IO_EXCEPTION.getMessage()));
+                LogicManager.FILE_OPS_ERROR_FORMAT, DUMMY_IO_EXCEPTION.getMessage()));
     }
 
     @Test
     public void execute_storageThrowsAdException_throwsCommandException() {
         assertCommandFailureForExceptionFromStorage(DUMMY_AD_EXCEPTION, String.format(
-                AddressLogicManager.FILE_OPS_PERMISSION_ERROR_FORMAT, DUMMY_AD_EXCEPTION.getMessage()));
+                LogicManager.FILE_OPS_PERMISSION_ERROR_FORMAT, DUMMY_AD_EXCEPTION.getMessage()));
     }
 
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredPersonList().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredList().remove(0));
     }
 
     /**
@@ -92,18 +99,18 @@ public class AddressLogicManagerTest {
      * - no exceptions are thrown <br>
      * - the feedback message is equal to {@code expectedMessage} <br>
      * - the internal model manager state is the same as that in {@code expectedModel} <br>
-     * @see #assertCommandFailure(String, Class, String, AddressModel)
+     * @see #assertCommandFailure(String, Class, String, AddressBookModel)
      */
     private void assertCommandSuccess(String inputCommand, String expectedMessage,
-            AddressModel expectedAddressModel) throws CommandException, ParseException {
+            AddressBookModel expectedAddressAddressBookModel) throws CommandException, ParseException {
         CommandResult result = logic.execute(inputCommand);
         assertEquals(expectedMessage, result.getFeedbackToUser());
-        assertEquals(expectedAddressModel, addressModel);
+        assertEquals(expectedAddressAddressBookModel, addressAddressBookModel);
     }
 
     /**
      * Executes the command, confirms that a ParseException is thrown and that the result message is correct.
-     * @see #assertCommandFailure(String, Class, String, AddressModel)
+     * @see #assertCommandFailure(String, Class, String, AddressBookModel)
      */
     private void assertParseException(String inputCommand, String expectedMessage) {
         assertCommandFailure(inputCommand, ParseException.class, expectedMessage);
@@ -111,7 +118,7 @@ public class AddressLogicManagerTest {
 
     /**
      * Executes the command, confirms that a CommandException is thrown and that the result message is correct.
-     * @see #assertCommandFailure(String, Class, String, AddressModel)
+     * @see #assertCommandFailure(String, Class, String, AddressBookModel)
      */
     private void assertCommandException(String inputCommand, String expectedMessage) {
         assertCommandFailure(inputCommand, CommandException.class, expectedMessage);
@@ -119,12 +126,12 @@ public class AddressLogicManagerTest {
 
     /**
      * Executes the command, confirms that the exception is thrown and that the result message is correct.
-     * @see #assertCommandFailure(String, Class, String, AddressModel)
+     * @see #assertCommandFailure(String, Class, String, AddressBookModel)
      */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
             String expectedMessage) {
-        AddressModel expectedAddressModel = new AddressModelManager(addressModel.getAddressBook(), new UserPrefs());
-        assertCommandFailure(inputCommand, expectedException, expectedMessage, expectedAddressModel);
+        AddressBookModel expectedAddressAddressBookModel = new AddressBookModelManager(addressAddressBookModel.getAddressBook(), new UserPrefs());
+        assertCommandFailure(inputCommand, expectedException, expectedMessage, expectedAddressAddressBookModel);
     }
 
     /**
@@ -132,12 +139,12 @@ public class AddressLogicManagerTest {
      * - the {@code expectedException} is thrown <br>
      * - the resulting error message is equal to {@code expectedMessage} <br>
      * - the internal model manager state is the same as that in {@code expectedModel} <br>
-     * @see #assertCommandSuccess(String, String, AddressModel)
+     * @see #assertCommandSuccess(String, String, AddressBookModel)
      */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
-            String expectedMessage, AddressModel expectedAddressModel) {
+            String expectedMessage, AddressBookModel expectedAddressAddressBookModel) {
         assertThrows(expectedException, expectedMessage, () -> logic.execute(inputCommand));
-        assertEquals(expectedAddressModel, addressModel);
+        assertEquals(expectedAddressAddressBookModel, addressAddressBookModel);
     }
 
     /**
@@ -158,17 +165,26 @@ public class AddressLogicManagerTest {
             }
         };
 
+        // Inject LogicManager with an WeddingBookStorage that throws the IOException e when saving
+        JsonWeddingBookStorage weddingBookStorage = new JsonWeddingBookStorage(prefPath) {
+            @Override
+            public void saveWeddingBook(ReadOnlyWeddingBook weddingBook, Path filePath)
+                    throws IOException {
+                throw e;
+            }
+        };
+
         JsonUserPrefsStorage userPrefsStorage =
                 new JsonUserPrefsStorage(temporaryFolder.resolve("ExceptionUserPrefs.json"));
-        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        StorageManager storage = new StorageManager(addressBookStorage, weddingBookStorage, userPrefsStorage);
 
-        logic = new AddressLogicManager(addressModel, storage);
+        logic = new LogicManager(addressAddressBookModel, weddingBookModel, storage);
 
         // Triggers the saveAddressBook method by executing an add command
         String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
         Person expectedPerson = new PersonBuilder(AMY).withTags().build();
-        AddressModelManager expectedModel = new AddressModelManager();
+        AddressBookModelManager expectedModel = new AddressBookModelManager();
         expectedModel.addPerson(expectedPerson);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }

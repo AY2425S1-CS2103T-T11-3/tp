@@ -12,8 +12,8 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.book.addressbook.AddressModel;
-import seedu.address.model.book.addressbook.AddressModelManager;
+import seedu.address.model.book.addressbook.AddressBookModelManager;
+import seedu.address.model.book.addressbook.AddressBookModel;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.TagContainsKeywordsPredicate;
 
@@ -22,8 +22,8 @@ import seedu.address.model.person.TagContainsKeywordsPredicate;
  */
 public class FilterCommandTest {
 
-    private AddressModel addressModel = new AddressModelManager(getTypicalAddressBook(), new UserPrefs());
-    private AddressModel expectedAddressModel = new AddressModelManager(getTypicalAddressBook(), new UserPrefs());
+    private AddressBookModel addressAddressBookModel = new AddressBookModelManager(getTypicalAddressBook(), new UserPrefs());
+    private AddressBookModel expectedAddressAddressBookModel = new AddressBookModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
     public void equals() {
@@ -57,9 +57,9 @@ public class FilterCommandTest {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
         TagContainsKeywordsPredicate predicate = preparePredicate("t/ ");
         FilterCommand command = new FilterCommand(predicate);
-        expectedAddressModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, addressModel, expectedMessage, expectedAddressModel);
-        assertEquals(Collections.emptyList(), addressModel.getFilteredPersonList());
+        expectedAddressAddressBookModel.updateFilteredPersonList(predicate);
+        assertCommandSuccess(command, addressAddressBookModel, expectedMessage, expectedAddressAddressBookModel);
+        assertEquals(Collections.emptyList(), addressAddressBookModel.getFilteredPersonList());
     }
 
     @Test
@@ -67,9 +67,9 @@ public class FilterCommandTest {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 5);
         TagContainsKeywordsPredicate predicate = preparePredicate("friends gym colleague");
         FilterCommand command = new FilterCommand(predicate);
-        expectedAddressModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, addressModel, expectedMessage, expectedAddressModel);
-        assertEquals(5, addressModel.getFilteredPersonList().size());
+        expectedAddressAddressBookModel.updateFilteredPersonList(predicate);
+        assertCommandSuccess(command, addressAddressBookModel, expectedMessage, expectedAddressAddressBookModel);
+        assertEquals(5, addressAddressBookModel.getFilteredPersonList().size());
     }
 
     /**
