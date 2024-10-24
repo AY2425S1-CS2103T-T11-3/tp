@@ -3,7 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Collections;
@@ -35,7 +35,7 @@ public class TagCommand extends Command {
             + "by full name. "
             + "New tags will be added to existing tags.\n"
             + "Example: " + COMMAND_WORD + PREFIX_NAME
-            + "Alex Yeoh " + PREFIX_TAG + "food vendor";
+            + "Alex Yeoh " + PREFIX_ROLE + "food vendor";
 
     public static final String MESSAGE_TAG_PERSON_SUCCESS = "Tagged Person: %1$s";
     public static final String MESSAGE_NO_NEW_TAG = "At least one tag must be provided.";

@@ -9,6 +9,10 @@ import seedu.address.model.person.Person;
 public class Client {
     private final Person person;
 
+    /**
+     * Constructs a Client of Person.
+     * @param person Person that is a client.
+     */
     public Client(Person person) {
         this.person = new Person(person.getName(), person.getPhone(),
                 person.getEmail(), person.getAddress(), person.getRole(), null);
