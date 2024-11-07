@@ -175,7 +175,7 @@ public class DeleteCommand extends Command {
         List<Wedding> weddingList = model.getFilteredWeddingList();
         for (Index index : weddingIndices) {
             Wedding wedding = weddingList.get(index.getZeroBased());
-            if (!personToDelete.isAssignedToWeddingNonClient(wedding)) {
+            if (!personToDelete.isAssignedToWedding(wedding)) {
                 throw new CommandException(MESSAGE_PERSON_NOT_ASSIGNED_WEDDING);
             }
         }
