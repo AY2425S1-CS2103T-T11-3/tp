@@ -16,7 +16,7 @@ import seedu.address.model.person.AddressContainsKeywordsPredicate;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmailContainsKeywordsPredicate;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.NameMatchesKeywordPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.PhoneContainsKeywordsPredicate;
@@ -34,7 +34,6 @@ public class FilterCommand extends Command {
     public static final String COMMAND_WORD = "filter";
 
     public static final String MESSAGE_NO_CRITERIA = "At least one filter criteria must be provided";
-    public static final String MESSAGE_NAME_CONSTRAINTS = "Name should be a single word";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Filters persons by multiple criteria. "
             + "At least one field must be specified.\n"
             + "Parameters: [n/NAME] [r/ROLE] [e/EMAIL] [p/PHONE] [a/ADDRESS]...\n"
@@ -65,7 +64,7 @@ public class FilterCommand extends Command {
         List<Predicate<Person>> predicates = new ArrayList<>();
 
         if (name != null) {
-            predicates.add(new NameContainsKeywordsPredicate(Arrays.asList(name.toString().toLowerCase())));
+             predicates.add(new NameMatchesKeywordPredicate(Arrays.asList(name.toString().toLowerCase())));
         }
 
         if (role != null) {
