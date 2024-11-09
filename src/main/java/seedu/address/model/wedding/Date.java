@@ -12,7 +12,7 @@ import java.time.format.DateTimeParseException;
  */
 public class Date {
     public static final String MESSAGE_CONSTRAINTS =
-            "Date is not in the correct format or in the future.";
+            "Date is not in the correct format or is not in the future.";
     public static final String MESSAGE_CONSTRAINTS_WRONG_FORMAT =
             "Date should be in the following format, "
                     + "YYYY-MM-DD.";
@@ -46,7 +46,7 @@ public class Date {
      */
     public static boolean isValidDate(String test) {
         try {
-            LocalDate.parse(test, FORMATTER);
+            LocalDate.parse(test);
             return true;
         } catch (DateTimeParseException e) {
             return false;
