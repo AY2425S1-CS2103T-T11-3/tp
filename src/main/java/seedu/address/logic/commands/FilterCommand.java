@@ -64,7 +64,7 @@ public class FilterCommand extends Command {
         List<Predicate<Person>> predicates = new ArrayList<>();
 
         if (name != null) {
-             predicates.add(new NameMatchesKeywordPredicate(Arrays.asList(name.toString().toLowerCase())));
+            predicates.add(new NameMatchesKeywordPredicate(Arrays.asList(name.toString().toLowerCase())));
         }
 
         if (role != null) {
