@@ -26,13 +26,13 @@ class EditwCommandTest {
     void execute_allFieldsSpecified_success() throws Exception {
         ModelStubAcceptingWeddingAdded modelStub = new ModelStubAcceptingWeddingAdded();
         Client validClient = new Client(JOHN);
-        Wedding validWedding = new Wedding(new Name("WeddingJim"), validClient, new Date("2024-10-31"),
+        Wedding validWedding = new Wedding(new Name("WeddingJim"), validClient, new Date("2025-10-31"),
                 new Venue("Venue1"));
         modelStub.addWedding(validWedding);
 
         EditwCommand.EditWeddingDescriptor descriptor = new EditwCommand.EditWeddingDescriptor();
         descriptor.setName(new Name("UpdatedWedding"));
-        descriptor.setDate(new Date("2024-11-01"));
+        descriptor.setDate(new Date("2025-11-01"));
         descriptor.setVenue(new Venue("UpdatedVenue"));
 
         EditwCommand command = new EditwCommand(Index.fromOneBased(1), descriptor);
@@ -40,7 +40,7 @@ class EditwCommandTest {
 
         Wedding editedWedding = modelStub.getFilteredWeddingList().get(0);
         assertEquals("UpdatedWedding", editedWedding.getName().toString());
-        assertEquals("2024-11-01", editedWedding.getDate().toString());
+        assertEquals("2025-11-01", editedWedding.getDate().toString());
         assertEquals("UpdatedVenue", editedWedding.getVenue().toString());
         assertEquals(String.format(EditwCommand.MESSAGE_EDIT_WEDDING_SUCCESS, Messages.format(editedWedding)),
                 result.getFeedbackToUser());
@@ -52,7 +52,7 @@ class EditwCommandTest {
         ModelStubAcceptingWeddingAdded modelStub = new ModelStubAcceptingWeddingAdded();
 
         // Add a wedding to set up the initial data (only one wedding with index 1)
-        Wedding initialWedding = new Wedding(new Name("Existing Wedding"), new Client(JOHN), new Date("2024-10-01"),
+        Wedding initialWedding = new Wedding(new Name("Existing Wedding"), new Client(JOHN), new Date("2025-10-01"),
                 new Venue("Initial Venue"));
         modelStub.addWedding(initialWedding);
 
@@ -68,7 +68,7 @@ class EditwCommandTest {
     @Test
     void execute_noFieldsSpecified_throwsCommandException() {
         ModelStubAcceptingWeddingAdded modelStub = new ModelStubAcceptingWeddingAdded();
-        Wedding validWedding = new Wedding(new Name("WeddingJim"), new Date("2024-10-31"), new Venue("Venue1"));
+        Wedding validWedding = new Wedding(new Name("WeddingJim"), new Date("2025-10-31"), new Venue("Venue1"));
         modelStub.addWedding(validWedding);
 
         EditwCommand.EditWeddingDescriptor descriptor = new EditwCommand.EditWeddingDescriptor();
@@ -84,12 +84,12 @@ class EditwCommandTest {
         // Set up descriptors with the same values
         EditWeddingDescriptor descriptor1 = new EditwCommand.EditWeddingDescriptor();
         descriptor1.setName(new Name("Wedding"));
-        descriptor1.setDate(new Date("2024-12-25"));
+        descriptor1.setDate(new Date("2025-12-25"));
         descriptor1.setVenue(new Venue("Grand Ballroom"));
 
         EditWeddingDescriptor descriptor2 = new EditWeddingDescriptor();
         descriptor2.setName(new Name("Wedding"));
-        descriptor2.setDate(new Date("2024-12-25"));
+        descriptor2.setDate(new Date("2025-12-25"));
         descriptor2.setVenue(new Venue("Grand Ballroom"));
 
         // Create commands
@@ -108,12 +108,12 @@ class EditwCommandTest {
 
         EditwCommand.EditWeddingDescriptor descriptor1 = new EditWeddingDescriptor();
         descriptor1.setName(new Name("WeddingWRONG"));
-        descriptor1.setDate(new Date("2024-12-25"));
+        descriptor1.setDate(new Date("2025-12-25"));
         descriptor1.setVenue(new Venue("Grand Ballroom"));
 
         EditWeddingDescriptor descriptor2 = new EditWeddingDescriptor();
         descriptor2.setName(new Name("WeddingRIGHT"));
-        descriptor2.setDate(new Date("2024-12-26"));
+        descriptor2.setDate(new Date("2025-12-26"));
         descriptor2.setVenue(new Venue("Beach Venue"));
 
         // Create commands with different indexes and descriptors
@@ -131,7 +131,7 @@ class EditwCommandTest {
 
         EditWeddingDescriptor descriptor = new EditWeddingDescriptor();
         descriptor.setName(new Name("WeddingWow"));
-        descriptor.setDate(new Date("2024-12-25"));
+        descriptor.setDate(new Date("2025-12-25"));
         descriptor.setVenue(new Venue("Grand Ballroom"));
 
         EditwCommand command = new EditwCommand(index, descriptor);
@@ -146,7 +146,7 @@ class EditwCommandTest {
 
         EditWeddingDescriptor descriptor = new EditWeddingDescriptor();
         descriptor.setName(new Name("WeddingBob"));
-        descriptor.setDate(new Date("2024-12-25"));
+        descriptor.setDate(new Date("2025-12-25"));
         descriptor.setVenue(new Venue("Grand Ballroom"));
 
         EditwCommand command = new EditwCommand(index, descriptor);
@@ -160,7 +160,7 @@ class EditwCommandTest {
     void execute_partialFieldUpdate_success() throws Exception {
         ModelStubAcceptingWeddingAdded modelStub = new ModelStubAcceptingWeddingAdded();
         Client validClient = new Client(JOHN);
-        Wedding validWedding = new Wedding(new Name("OriginalWedding"), validClient, new Date("2024-10-31"),
+        Wedding validWedding = new Wedding(new Name("OriginalWedding"), validClient, new Date("2025-10-31"),
                 new Venue("OriginalVenue"));
         modelStub.addWedding(validWedding);
 
@@ -172,7 +172,7 @@ class EditwCommandTest {
 
         Wedding editedWedding = modelStub.getFilteredWeddingList().get(0);
         assertEquals("OriginalWedding", editedWedding.getName().toString());
-        assertEquals("2024-10-31", editedWedding.getDate().toString());
+        assertEquals("2025-10-31", editedWedding.getDate().toString());
         assertEquals("UpdatedVenue", editedWedding.getVenue().toString());
         assertEquals(String.format(EditwCommand.MESSAGE_EDIT_WEDDING_SUCCESS, Messages.format(editedWedding)),
                 result.getFeedbackToUser());
@@ -197,12 +197,12 @@ class EditwCommandTest {
     void equals_differentDescriptorsWithSameValues_returnsTrue() {
         EditWeddingDescriptor descriptor1 = new EditWeddingDescriptor();
         descriptor1.setName(new Name("Wedding"));
-        descriptor1.setDate(new Date("2024-12-25"));
+        descriptor1.setDate(new Date("2025-12-25"));
         descriptor1.setVenue(new Venue("Grand Ballroom"));
 
         EditWeddingDescriptor descriptor2 = new EditWeddingDescriptor();
         descriptor2.setName(new Name("Wedding"));
-        descriptor2.setDate(new Date("2024-12-25"));
+        descriptor2.setDate(new Date("2025-12-25"));
         descriptor2.setVenue(new Venue("Grand Ballroom"));
 
         // Test equality for descriptors with the same values
@@ -238,14 +238,14 @@ class EditwCommandTest {
     void isAnyFieldEdited_allFieldsSet_returnsTrue() {
         EditWeddingDescriptor descriptor = new EditWeddingDescriptor();
         descriptor.setName(new Name("Wedding"));
-        descriptor.setDate(new Date("2024-12-25"));
+        descriptor.setDate(new Date("2025-12-25"));
         descriptor.setVenue(new Venue("Grand Ballroom"));
         assertTrue(descriptor.isAnyFieldEdited());
     }
 
     @Test
     void createEditedWedding_optionalFieldsNotEdited() {
-        Wedding originalWedding = new Wedding(new Name("OriginalWedding"), new Client(JOHN), new Date("2024-10-01"),
+        Wedding originalWedding = new Wedding(new Name("OriginalWedding"), new Client(JOHN), new Date("2025-10-01"),
                 new Venue("OriginalVenue"));
 
         EditWeddingDescriptor descriptor = new EditWeddingDescriptor();
@@ -255,7 +255,7 @@ class EditwCommandTest {
 
         // Ensure only the name is updated, and other fields remain unchanged
         assertEquals("UpdatedWedding", editedWedding.getName().toString());
-        assertEquals("2024-10-01", editedWedding.getDate().toString());
+        assertEquals("2025-10-01", editedWedding.getDate().toString());
         assertEquals("OriginalVenue", editedWedding.getVenue().toString());
     }
 }

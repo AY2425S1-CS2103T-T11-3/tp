@@ -18,12 +18,12 @@ class EditwCommandParserTest {
 
     @Test
     void parse_allFieldsPresent_success() throws ParseException {
-        String userInput = " w/1 n/UpdatedWedding d/2024-11-01 v/UpdatedVenue";
+        String userInput = " w/1 n/UpdatedWedding d/2025-11-01 v/UpdatedVenue";
         EditwCommand command = parser.parse(userInput);
 
         EditwCommand.EditWeddingDescriptor descriptor = new EditwCommand.EditWeddingDescriptor();
         descriptor.setName(new Name("UpdatedWedding"));
-        descriptor.setDate(new Date("2024-11-01"));
+        descriptor.setDate(new Date("2025-11-01"));
         descriptor.setVenue(new Venue("UpdatedVenue"));
 
         assertEquals(new EditwCommand(Index.fromOneBased(1), descriptor), command);
@@ -31,11 +31,11 @@ class EditwCommandParserTest {
 
     @Test
     void parse_optionalFieldsMissing_success() throws ParseException {
-        String userInput = " w/1 d/2024-11-01";
+        String userInput = " w/1 d/2025-11-01";
         EditwCommand command = parser.parse(userInput);
 
         EditwCommand.EditWeddingDescriptor descriptor = new EditwCommand.EditWeddingDescriptor();
-        descriptor.setDate(new Date("2024-11-01"));
+        descriptor.setDate(new Date("2025-11-01"));
 
         assertEquals(new EditwCommand(Index.fromOneBased(1), descriptor), command);
     }
@@ -54,7 +54,7 @@ class EditwCommandParserTest {
 
     @Test
     void parse_invalidName_failure() {
-        String userInput = "w/1 n/!nvalidName d/2024-11-01 v/UpdatedVenue";
+        String userInput = "w/1 n/!nvalidName d/2025-11-01 v/UpdatedVenue";
         assertThrows(ParseException.class, () -> parser.parse(userInput));
     }
 
@@ -66,18 +66,18 @@ class EditwCommandParserTest {
 
     @Test
     void parse_invalidVenue_failure() {
-        String userInput = "w/1 n/UpdatedWedding d/2024-11-01 v/!nvalidVenue";
+        String userInput = "w/1 n/UpdatedWedding d/2025-11-01 v/!nvalidVenue";
         assertThrows(ParseException.class, () -> parser.parse(userInput));
     }
 
     @Test
     void parse_repeatedFields_failure() {
         // Repeated names
-        final String repeatedNameInput = "w/1 n/UpdatedWedding n/DuplicateName d/2024-11-01 v/UpdatedVenue";
+        final String repeatedNameInput = "w/1 n/UpdatedWedding n/DuplicateName d/2025-11-01 v/UpdatedVenue";
         assertThrows(ParseException.class, () -> parser.parse(repeatedNameInput));
 
         // Repeated dates
-        final String repeatedDateInput = "w/1 n/UpdatedWedding d/2024-10-31 d/2024-11-01 v/UpdatedVenue";
+        final String repeatedDateInput = "w/1 n/UpdatedWedding d/2024-10-31 d/2025-11-01 v/UpdatedVenue";
         assertThrows(ParseException.class, () -> parser.parse(repeatedDateInput));
 
         // Repeated venues
@@ -87,24 +87,24 @@ class EditwCommandParserTest {
 
     @Test
     void parse_missingIndex_failure() {
-        String userInput = "n/UpdatedWedding d/2024-11-01 v/UpdatedVenue";
+        String userInput = "n/UpdatedWedding d/2025-11-01 v/UpdatedVenue";
         assertThrows(ParseException.class, () -> parser.parse(userInput));
     }
 
     @Test
     void parse_nonEmptyPreamble_failure() {
-        String userInput = "bruh w/1 n/UpdatedWedding d/2024-11-01 v/UpdatedVenue";
+        String userInput = "bruh w/1 n/UpdatedWedding d/2025-11-01 v/UpdatedVenue";
         assertThrows(ParseException.class, () -> parser.parse(userInput));
     }
 
     @Test
     void parse_whitespaceOnlyPreamble_success() throws ParseException {
-        String userInput = "   w/1 n/UpdatedWedding d/2024-11-01 v/UpdatedVenue";
+        String userInput = "   w/1 n/UpdatedWedding d/2025-11-01 v/UpdatedVenue";
         EditwCommand command = parser.parse(userInput);
 
         EditwCommand.EditWeddingDescriptor descriptor = new EditwCommand.EditWeddingDescriptor();
         descriptor.setName(new Name("UpdatedWedding"));
-        descriptor.setDate(new Date("2024-11-01"));
+        descriptor.setDate(new Date("2025-11-01"));
         descriptor.setVenue(new Venue("UpdatedVenue"));
 
         assertEquals(new EditwCommand(Index.fromOneBased(1), descriptor), command);
@@ -118,14 +118,14 @@ class EditwCommandParserTest {
 
     @Test
     void parse_requiredFieldsMissing_failure() {
-        String userInput = " n/UpdatedWedding d/2024-11-01";
+        String userInput = " n/UpdatedWedding d/2025-11-01";
         assertThrows(ParseException.class, () -> parser.parse(userInput));
     }
 
     @Test
     void parse_unrecognizedPrefixes_failure() {
         // Input includes an unrecognized prefix 'x/' which should result in a ParseException.
-        String userInput = "w/1 n/UpdatedWedding d/2024-11-01 x/unknown v/UpdatedVenue";
+        String userInput = "w/1 n/UpdatedWedding d/2025-11-01 x/unknown v/UpdatedVenue";
         assertThrows(ParseException.class, () -> parser.parse(userInput));
     }
 }

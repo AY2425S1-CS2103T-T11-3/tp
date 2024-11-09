@@ -120,7 +120,7 @@ public class JsonSerializableAddressBookTest {
         // Test data with a person having a wedding job but no client owns that wedding
         Person client = TypicalPersons.ALICE;
         Wedding wedding = new WeddingBuilder().withClient(client)
-                .withDate("2022-01-01").withVenue("Test Venue").build();
+                .withDate("2025-01-01").withVenue("Test Venue").build();
 
         Person personWithInvalidJob = new PersonBuilder()
                 .withName("Invalid Job Person")
@@ -178,7 +178,7 @@ public class JsonSerializableAddressBookTest {
         // Create test data
         Person client = TypicalPersons.ALICE;
         Wedding wedding = new WeddingBuilder().withClient(client)
-                .withDate("2022-01-01").withVenue("Test Venue").build();
+                .withDate("2025-01-01").withVenue("Test Venue").build();
         client.setOwnWedding(wedding);
 
         // Create JSON adapted versions

@@ -28,7 +28,7 @@ import seedu.address.testutil.WeddingBuilder;
 
 public class UniquePersonListTest {
 
-    private static final Wedding WEDDING_A = new WeddingBuilder().withName("Wedding A").withDate("2020-02-20").build();
+    private static final Wedding WEDDING_A = new WeddingBuilder().withName("Wedding A").withDate("2025-02-20").build();
     private static final Wedding WEDDING_B = new WeddingBuilder().withName("Wedding B").build();
     private static final Wedding WEDDING_C = new WeddingBuilder().withName("Wedding C").build();
 

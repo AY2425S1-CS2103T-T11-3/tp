@@ -130,7 +130,13 @@ public class ParserUtil {
         }
         String trimmedDate = date.trim();
         if (!Date.isValidDate(trimmedDate)) {
-            throw new ParseException(Date.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Date.MESSAGE_CONSTRAINTS_WRONG_FORMAT);
+        }
+        if (!Date.isInTheFuture(trimmedDate)) {
+            throw new ParseException(Date.MESSAGE_CONSTRAINTS_NOT_IN_FUTURE);
+        }
+        if (!Date.isWithinNextThreeYears(trimmedDate)) {
+            throw new ParseException(Date.MESSAGE_CONSTRAINTS_NOT_WITHIN_3_YEARS);
         }
         return new Date(trimmedDate);
     }

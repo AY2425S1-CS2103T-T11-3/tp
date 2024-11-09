@@ -23,7 +23,7 @@ import seedu.address.model.wedding.Wedding;
 public class TypicalWeddings {
 
     public static final Wedding ALICE_WEDDING = new WeddingBuilder().withName("Alice's Wedding")
-            .withVenue("Marina Bay Sands").withDate("2024-12-12").withClient(ALICE).build();
+            .withVenue("Marina Bay Sands").withDate("2025-12-12").withClient(ALICE).build();
 
     public static final Wedding AMY_WEDDING = new WeddingBuilder().withName(VALID_NAME_AMYWEDDING)
             .withDate(VALID_DATE_AMYWEDDING).withVenue(VALID_VENUE_AMYWEDDING).withClient(AMY).build();

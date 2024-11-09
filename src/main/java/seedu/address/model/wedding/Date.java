@@ -11,10 +11,16 @@ import java.time.format.DateTimeParseException;
  * Represents the Date of a Wedding.
  */
 public class Date {
-
     public static final String MESSAGE_CONSTRAINTS =
+            "Date is not in the correct format or in the future.";
+    public static final String MESSAGE_CONSTRAINTS_WRONG_FORMAT =
             "Date should be in the following format, "
                     + "YYYY-MM-DD.";
+    public static final String MESSAGE_CONSTRAINTS_NOT_IN_FUTURE =
+            "The date inputted should be in the future.";
+
+    public static final String MESSAGE_CONSTRAINTS_NOT_WITHIN_3_YEARS =
+            "The date inputted should be within 3 years from today.";
 
     // Use built-in formatter to parse and validate the date
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -28,7 +34,7 @@ public class Date {
      */
     public Date(String date) {
         requireNonNull(date);
-        checkArgument(isValidDate(date), MESSAGE_CONSTRAINTS);
+        checkArgument(isValidDate(date) && isInTheFuture(date), MESSAGE_CONSTRAINTS);
         this.fullDate = LocalDate.parse(date, FORMATTER);
     }
 
@@ -42,6 +48,40 @@ public class Date {
         try {
             LocalDate.parse(test, FORMATTER);
             return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Returns true if a given string is a date in the future.
+     *
+     * @param test string to be tested
+     * @return whether the string is a future date.
+     */
+    public static boolean isInTheFuture(String test) {
+        try {
+            LocalDate date = LocalDate.parse(test, FORMATTER);
+            LocalDate today = LocalDate.now();
+            return date.isAfter(today);
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Returns true if a given string is a date within the next 3 years.
+     *
+     * @param test string to be tested
+     * @return whether the string is a date within the next 3 years.
+     */
+    public static boolean isWithinNextThreeYears(String test) {
+        try {
+            LocalDate date = LocalDate.parse(test, FORMATTER);
+            LocalDate today = LocalDate.now();
+
+            LocalDate max = LocalDate.of(today.getYear() + 3, today.getMonth(), today.getDayOfMonth());
+            return date.isBefore(max);
         } catch (DateTimeParseException e) {
             return false;
         }

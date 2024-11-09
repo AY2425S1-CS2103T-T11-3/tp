@@ -49,9 +49,9 @@ public class CommandTestUtil {
     public static final String VALID_CLIENT_NAME_ALICEWEDDING = "Alice";
     public static final String VALID_CLIENT_AMYWEDDING = "2";
     public static final String VALID_CLIENT_BOBWEDDING = "3";
-    public static final String VALID_DATE_ALICEWEDDING = "2024-12-12";
+    public static final String VALID_DATE_ALICEWEDDING = "2025-12-12";
     public static final String VALID_DATE_AMYWEDDING = "2025-12-25";
-    public static final String VALID_DATE_BOBWEDDING = "2020-11-11";
+    public static final String VALID_DATE_BOBWEDDING = "2025-11-11";
     public static final String VALID_VENUE_ALICEWEDDING = "Marina Bay Sands";
     public static final String VALID_VENUE_AMYWEDDING = "Amy's Wedding Venue";
     public static final String VALID_VENUE_BOBWEDDING = "Bob's Wedding Venue";
