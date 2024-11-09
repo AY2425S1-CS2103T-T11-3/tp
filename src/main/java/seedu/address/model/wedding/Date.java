@@ -60,13 +60,9 @@ public class Date {
      * @return whether the string is a future date.
      */
     public static boolean isInTheFuture(String test) {
-        try {
-            LocalDate date = LocalDate.parse(test, FORMATTER);
-            LocalDate today = LocalDate.now();
-            return date.isAfter(today);
-        } catch (DateTimeParseException e) {
-            return false;
-        }
+        LocalDate date = LocalDate.parse(test, FORMATTER);
+        LocalDate today = LocalDate.now();
+        return date.isAfter(today);
     }
 
     /**
@@ -76,15 +72,11 @@ public class Date {
      * @return whether the string is a date within the next 3 years.
      */
     public static boolean isWithinNextThreeYears(String test) {
-        try {
-            LocalDate date = LocalDate.parse(test, FORMATTER);
-            LocalDate today = LocalDate.now();
+        LocalDate date = LocalDate.parse(test, FORMATTER);
+        LocalDate today = LocalDate.now();
 
-            LocalDate max = LocalDate.of(today.getYear() + 3, today.getMonth(), today.getDayOfMonth());
-            return date.isBefore(max);
-        } catch (DateTimeParseException e) {
-            return false;
-        }
+        LocalDate max = LocalDate.of(today.getYear() + 3, today.getMonth(), today.getDayOfMonth());
+        return date.isBefore(max);
     }
 
     @Override

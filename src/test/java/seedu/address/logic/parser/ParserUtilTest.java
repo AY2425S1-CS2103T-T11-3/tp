@@ -31,6 +31,9 @@ public class ParserUtilTest {
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_ROLE_1 = "#friend";
     private static final String INVALID_DATE = "31 December 2024";
+    private static final String INVALID_PAST_DATE = "2021-12-31";
+    private static final String INVALID_FAR_FUTURE_DATE = "2030-10-31";
+
     private static final String INVALID_VENUE = "";
     private static final String INVALID_CLIENT_INDEX = "-1";
     private static final String INVALID_CLIENT_NAME = "@my";
@@ -209,6 +212,16 @@ public class ParserUtilTest {
     @Test
     public void parseDate_invalidValue_throwsParseException() {
         assertThrows(ParseException.class, () -> ParserUtil.parseDate(INVALID_DATE));
+    }
+
+    @Test
+    public void parseDate_invalidPastValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseDate(INVALID_PAST_DATE));
+    }
+
+    @Test
+    public void parseDate_invalidFarFutureValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseDate(INVALID_FAR_FUTURE_DATE));
     }
 
     @Test
